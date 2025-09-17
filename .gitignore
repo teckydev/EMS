@@ -1,0 +1,45 @@
+# -----------------
+# Global ignores
+# -----------------
+node_modules/
+dist/
+tmp/
+out-tsc/
+bazel-out/
+coverage/
+.env
+.env.*.local
+
+# Logs
+npm-debug.log*
+yarn-error.log
+pnpm-debug.log*
+
+# IDEs / Editors
+.idea/
+.vscode/*
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+!.vscode/extensions.json
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# -----------------
+# Angular frontend
+# -----------------
+EMS-frontend/.angular/cache
+EMS-frontend/.sass-cache/
+EMS-frontend/.history/
+EMS-frontend/typings/
+
+# -----------------
+# Node.js backend
+# -----------------
+server/node_modules/
+server/logs/
+server/debug.log
+server/error.log
+server/.env
