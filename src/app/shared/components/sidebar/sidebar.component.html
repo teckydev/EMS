@@ -1,0 +1,39 @@
+<mat-sidenav-container class="h-screen">
+  <!-- Sidebar -->
+  <mat-sidenav #drawer
+    mode="side"
+    [opened]="true"
+    class="bg-indigo-600  text-white w-60 md:block hidden transition-all duration-300"
+  >
+    <div class="p-4 text-lg font-bold border-b border-gray-700">
+      Admin Panel
+    </div>
+
+    <nav class="mt-4">
+   <a
+  *ngFor="let item of menuItems"
+  [routerLink]="item.route"
+  routerLinkActive="bg-white"
+  [routerLinkActiveOptions]="{ exact: true }"
+class="flex items-center px-4 py-2 hover:bg-indigo-700 hover:pl-6 transition-all duration-300 rounded-md text-black"
+>
+  <mat-icon class="mr-3">{{ item.icon }}</mat-icon>
+  <span>{{ item.label }}</span>
+</a>
+    </nav>
+    
+  </mat-sidenav>
+
+  <!-- Main Content -->
+  <mat-sidenav-content>
+    <!-- Mobile topbar -->
+    <div class="flex justify-between items-center bg-gray-800 text-white p-4 md:hidden">
+      <button mat-icon-button (click)="drawer.toggle()">
+        <mat-icon>menu</mat-icon>
+      </button>
+      <span class="text-lg font-bold">Admin Panel</span>
+    </div>
+
+   
+  </mat-sidenav-content>
+</mat-sidenav-container>

@@ -1,0 +1,27 @@
+<div class="max-w-md mx-auto mt-8 p-6 bg-white shadow-md rounded-lg">
+  <h2 class="text-xl font-bold mb-4">Add Department</h2>
+
+  <form [formGroup]="departmentForm" (ngSubmit)="onSubmit()">
+    <mat-form-field appearance="fill" class="w-full">
+      <mat-label>Department Name</mat-label>
+      <input matInput formControlName="name" />
+    </mat-form-field>
+
+    <mat-form-field appearance="fill" class="w-full mt-4">
+      <mat-label>Description</mat-label>
+      <textarea matInput formControlName="description"></textarea>
+    </mat-form-field>
+
+    <button
+      mat-raised-button
+      color="primary"
+      type="submit"
+      [disabled]="departmentForm.invalid"
+      class="w-full mt-4"
+    >
+      Add Department
+    </button>
+  </form>
+
+  <p class="mt-4 text-green-600" *ngIf="message">{{ message }}</p>
+</div>
