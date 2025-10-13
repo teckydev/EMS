@@ -1,0 +1,8 @@
+mat-sidenav-container {
+  height: 100%;
+}
+
+mat-sidenav {
+  width: 15rem; /* Tailwind w-60 */
+  transition: width 0.3s ease-in-out;
+}

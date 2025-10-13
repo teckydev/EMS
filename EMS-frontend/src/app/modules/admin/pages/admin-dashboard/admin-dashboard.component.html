@@ -1,0 +1,77 @@
+<div class="p-6 bg-gray-100 min-h-screen">
+  <!-- Page Header -->
+  <div class="flex justify-between items-center mb-6">
+    <h1 class="text-2xl font-bold text-gray-800">Dashboard</h1>
+    <button class="px-4 py-2 bg-indigo-600 text-white rounded-lg">
+      Download Report
+    </button>
+  </div>
+
+  <!-- KPI Cards -->
+  <!-- KPI Cards Grid -->
+<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+  <app-kpicard 
+    title="Total Employees" 
+    value="256" 
+    icon="groups" 
+    color="bg-indigo-600">
+  </app-kpicard>
+
+  <app-kpicard 
+    title="Active Employees" 
+    value="240" 
+    icon="work" 
+    color="bg-green-600">
+  </app-kpicard>
+
+  <app-kpicard 
+    title="On Leave Today" 
+    value="12" 
+    icon="event_busy" 
+    color="bg-amber-500">
+  </app-kpicard>
+
+  <app-kpicard 
+    title="Departments" 
+    value="6" 
+    icon="business" 
+    color="bg-purple-600">
+  </app-kpicard>
+
+  <app-kpicard 
+    title="New Hires" 
+    value="5" 
+    icon="person_add" 
+    color="bg-blue-500">
+  </app-kpicard>
+
+  <app-kpicard 
+    title="Attrition Rate" 
+    value="2%" 
+    icon="trending_down" 
+    color="bg-red-600">
+  </app-kpicard>
+</div>
+
+
+
+  <!-- Charts Section -->
+  <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+  <app-chart
+    title="Employees by Department"
+    [chartType]="'pie'"
+    [chartData]="departmentChartData">
+  </app-chart>
+
+  <app-chart
+    title="Gender / Role Distribution"
+    [chartType]="'bar'"
+    [chartData]="genderRoleChartData">
+  </app-chart>
+</div>
+
+
+
+  <!-- Recent Activity Table -->
+  <app-recent-activity></app-recent-activity>
+</div>

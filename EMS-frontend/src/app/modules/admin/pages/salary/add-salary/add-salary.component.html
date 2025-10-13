@@ -1,0 +1,59 @@
+<h2 class="text-xl font-bold mb-4">{{ salaryId ? 'Update Salary' : 'Add Salary' }}</h2>
+
+<form [formGroup]="salaryForm" (ngSubmit)="onSubmit()" class="space-y-4 max-w-lg mx-auto">
+
+  <!-- Department & Employee on same row -->
+  <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+    <!-- Department -->
+    <mat-form-field appearance="fill" class="w-full">
+      <mat-label>Department</mat-label>
+      <mat-select formControlName="department" (selectionChange)="onDepartmentChange($event.value)">
+        <mat-option *ngFor="let dept of departments" [value]="dept._id">{{ dept.name }}</mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <!-- Employee -->
+    <mat-form-field appearance="fill" class="w-full">
+      <mat-label>Employee</mat-label>
+      <mat-select formControlName="employee" (selectionChange)="onEmployeeChange($event.value)">
+        <mat-option *ngFor="let emp of employees" [value]="emp._id">
+          {{ emp.empId }} - {{ emp.firstName }} {{ emp.lastName }}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+  </div>
+
+  <!-- Salary Fields on same row (optional) -->
+  <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+    <mat-form-field appearance="fill" class="w-full">
+      <mat-label>Basic Salary</mat-label>
+      <input matInput type="number" formControlName="basicSalary">
+    </mat-form-field>
+
+    <mat-form-field appearance="fill" class="w-full">
+      <mat-label>Allowance</mat-label>
+      <input matInput type="number" formControlName="allowance">
+    </mat-form-field>
+
+    <mat-form-field appearance="fill" class="w-full">
+      <mat-label>Deductions</mat-label>
+      <input matInput type="number" formControlName="deductions">
+    </mat-form-field>
+  </div>
+
+  <!-- Pay Date -->
+  <mat-form-field appearance="fill" class="w-full">
+    <mat-label>Pay Date</mat-label>
+    <input matInput [matDatepicker]="picker" formControlName="payDate">
+    <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+    <mat-datepicker #picker></mat-datepicker>
+  </mat-form-field>
+
+  <button mat-raised-button color="primary" type="submit" class="w-full md:w-auto">{{ salaryId ? 'Update Salary' : 'Add Salary' }}</button>
+
+</form>
+
+<!-- Success Message -->
+<div *ngIf="message" class="mt-4 text-green-600 text-center">
+  {{ message }}
+</div>

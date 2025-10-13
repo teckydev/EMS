@@ -1,0 +1,19 @@
+<div class="p-4">
+  <div class="flex justify-between items-center mb-4">
+    <h2 class="text-xl font-bold">Employees</h2>
+    <button mat-raised-button color="primary" (click)="openAddDialog()">Add Employee</button>
+  </div>
+
+  <app-data-table
+    [columns]="columnsSchema"
+    [dataSource]="employees"
+    [showActions]="true"
+    [showTitle]="'Employee'"
+    (edit)="onEdit($event)"
+    (delete)="onDelete($event)"
+    (view)="onView($event)"
+    (salary)="onViewSalary($event)"
+
+    >
+  </app-data-table>
+</div>

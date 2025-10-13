@@ -1,0 +1,16 @@
+<div class="flex h-screen">
+  <!-- Sidebar -->
+  <app-sidebar></app-sidebar>
+
+  <!-- Main content -->
+  <div class="flex-1 flex flex-col">
+    <!-- Navbar -->
+     <app-header></app-header>
+    <!-- <app-navbar></app-navbar> -->
+
+    <!-- Page content -->
+    <main class="p-6 bg-gray-100 flex-1 overflow-auto">
+      <router-outlet></router-outlet>  <!-- child pages render here -->
+    </main>
+  </div>
+</div>

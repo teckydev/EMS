@@ -1,0 +1,125 @@
+<div class="max-w-2xl mx-auto p-6 bg-white rounded-xl shadow-lg">
+  <h2 class="text-xl font-bold mb-4">{{ isEdit ? 'Edit Employee' : 'Add Employee' }}</h2>
+
+  <form [formGroup]="employeeForm" (ngSubmit)="onSubmit()" enctype="multipart/form-data">
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+      <mat-form-field appearance="fill" class="w-full">
+        <mat-label>First Name</mat-label>
+        <input matInput formControlName="firstName" />
+      </mat-form-field>
+
+      <mat-form-field appearance="fill" class="w-full">
+        <mat-label>Last Name</mat-label>
+        <input matInput formControlName="lastName" />
+      </mat-form-field>
+
+      <mat-form-field appearance="fill" class="w-full">
+        <mat-label>Email</mat-label>
+        <input matInput formControlName="email" />
+      </mat-form-field>
+
+      <mat-form-field appearance="fill" class="w-full">
+        <mat-label>Phone</mat-label>
+        <input matInput formControlName="phone" />
+      </mat-form-field>
+
+      <mat-form-field appearance="fill" class="w-full">
+        <mat-label>Department</mat-label>
+        <mat-select formControlName="department">
+          <mat-option *ngFor="let dept of departments" [value]="dept._id">{{ dept.name }}</mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      <mat-form-field appearance="fill" class="w-full">
+        <mat-label>Position</mat-label>
+        <input matInput formControlName="position" />
+      </mat-form-field>
+
+    <mat-form-field appearance="outline" class="w-full">
+  <mat-label>Role</mat-label>
+  <mat-select formControlName="role">
+    <mat-option *ngFor="let role of roles" [value]="role">
+      {{ role }}
+    </mat-option>
+  </mat-select>
+  <mat-error *ngIf="employeeForm.get('role')?.hasError('required')">
+    Role is required
+  </mat-error>
+</mat-form-field>
+<mat-form-field appearance="fill" class="w-full">
+  <mat-label>Employee ID</mat-label>
+  <input matInput formControlName="empId" required>
+</mat-form-field>
+
+
+      <mat-form-field appearance="fill" class="w-full">
+        <mat-label>Date of Birth</mat-label>
+        <input matInput [matDatepicker]="dobPicker" formControlName="dateOfBirth" />
+        <mat-datepicker-toggle matSuffix [for]="dobPicker"></mat-datepicker-toggle>
+        <mat-datepicker #dobPicker></mat-datepicker>
+      </mat-form-field>
+
+      <mat-form-field appearance="fill" class="w-full">
+        <mat-label>Hire Date</mat-label>
+        <input matInput [matDatepicker]="hirePicker" formControlName="hireDate" />
+        <mat-datepicker-toggle matSuffix [for]="hirePicker"></mat-datepicker-toggle>
+        <mat-datepicker #hirePicker></mat-datepicker>
+      </mat-form-field>
+
+      <mat-form-field appearance="fill" class="w-full">
+        <mat-label>Gender</mat-label>
+        <mat-select formControlName="gender">
+          <mat-option value="Male">Male</mat-option>
+          <mat-option value="Female">Female</mat-option>
+          <mat-option value="Other">Other</mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      <mat-form-field appearance="fill" class="w-full">
+        <mat-label>Salary</mat-label>
+        <input matInput type="number" formControlName="salary" />
+      </mat-form-field>
+
+      <mat-form-field appearance="fill" class="w-full">
+        <mat-label>Password</mat-label>
+        <input matInput type="password" formControlName="password" />
+      </mat-form-field>
+
+    <div class="col-span-2">
+  <label class="block font-medium mb-1">Address</label>
+  <div [formGroup]="addressForm" class="grid grid-cols-1 md:grid-cols-2 gap-4">
+    <mat-form-field appearance="fill">
+      <mat-label>Street</mat-label>
+      <input matInput formControlName="street" />
+    </mat-form-field>
+    <mat-form-field appearance="fill">
+      <mat-label>City</mat-label>
+      <input matInput formControlName="city" />
+    </mat-form-field>
+    <mat-form-field appearance="fill">
+      <mat-label>State</mat-label>
+      <input matInput formControlName="state" />
+    </mat-form-field>
+    <mat-form-field appearance="fill">
+      <mat-label>Zip Code</mat-label>
+      <input matInput formControlName="zipCode" />
+    </mat-form-field>
+  </div>
+</div>
+
+
+      <div class="col-span-2">
+        <label class="block font-medium mb-1">Photo</label>
+        <input type="file" (change)="onPhotoSelected($event)" />
+        <img *ngIf="photoPreview" [src]="photoPreview" class="mt-2 h-24 w-24 object-cover rounded" />
+      </div>
+    </div>
+
+    <div class="flex justify-end mt-6 gap-2">
+      <button mat-stroked-button type="button" (click)="close()">Cancel</button>
+      <button mat-raised-button color="primary" type="submit" [disabled]="employeeForm.invalid">
+        {{ isEdit ? 'Update' : 'Add' }}
+      </button>
+    </div>
+  </form>
+</div>

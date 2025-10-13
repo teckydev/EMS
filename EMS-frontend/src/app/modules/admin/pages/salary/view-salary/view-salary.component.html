@@ -1,0 +1,10 @@
+ <app-data-table
+    [columns]="columnsSchema"
+    [dataSource]="salaries"
+    [showView]="false"
+    [showSalary]="true"
+    [showTitle]="'Salary History'"
+     (edit)="onEdit($event)"
+     (delete)="onDelete($event)"
+    >
+  </app-data-table>

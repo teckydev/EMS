@@ -1,0 +1,12 @@
+<div class="flex items-center p-5 bg-white shadow-md rounded-xl">
+  <!-- Icon -->
+  <div [ngClass]="color" class="p-3 rounded-full text-white flex items-center justify-center mr-4">
+    <mat-icon class="text-2xl">{{ icon }}</mat-icon>
+  </div>
+
+  <!-- Text Content -->
+  <div>
+    <p class="text-sm text-gray-500">{{ title }}</p>
+    <h3 class="text-xl font-bold text-gray-800">{{ value }}</h3>
+  </div>
+</div>
