@@ -50,8 +50,8 @@ const EmployeeSchema = new mongoose.Schema({
   },
   role: {
     type: String,
-    enum: ['Admin', 'Manager', 'Employee', 'HR'],
-    default: 'Employee',
+    enum: ['admin', 'Manager', 'employee', 'HR'],
+    default: 'employee',
   },
   gender: {
     type: String,
@@ -74,6 +74,12 @@ const EmployeeSchema = new mongoose.Schema({
   password: {
     type: String,
     required: true,
+  },
+  // Field used for the Active Employee Count API
+  status: { 
+    type: String, 
+    enum: ['Active', 'On Leave', 'Terminated'], 
+    default: 'Active' 
   },
 });
 

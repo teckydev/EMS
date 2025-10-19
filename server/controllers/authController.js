@@ -37,24 +37,24 @@ exports.register = async (req, res) => {
 // Login Admin
 exports.login = async (req, res) => {
   const errors = validationResult(req);
-  if (!errors.isEmpty()) return res.status(400).json({ errors: errors.array() });
+    if (!errors.isEmpty()) return res.status(400).json({ errors: errors.array() });
 
-  const { email, password } = req.body;
+    const { email, password } = req.body;
 
-  try {
+    try {
     const user = await User.findOne({ email });
-    if (!user) return res.status(400).json({ message: 'Invalid credentials' });
+        if (!user) return res.status(400).json({ message: 'Invalid credentials' });
 
-    const isMatch = await user.matchPassword(password);
-    if (!isMatch) return res.status(400).json({ message: 'Invalid credentials' });
-
+        const isMatch = await user.matchPassword(password);
+        if (!isMatch) return res.status(400).json({ message: 'Invalid credentials' });
+        
     const token = generateToken(user);
-    res.json({ 
-      message: 'Login successful',
+        res.json({ 
+            message: 'Login successful',
       user: { id: user._id, name: user.name, email: user.email, role: user.role },
-      token
-    });
-  } catch (error) {
+            token
+        });
+    } catch (error) {
     res.status(500).json({ message: error.message });
-  }
+    }
 };

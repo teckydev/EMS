@@ -1,9 +1,16 @@
 const express = require('express');
-const { addDepartment,getDepartments,updateDepartment,deleteDepartment} = require('../controllers/departmentController');
+const { addDepartment,getDepartments,updateDepartment,deleteDepartment,getDepartmentCount} = require('../controllers/departmentController');
 const { protect } = require('../middleware/authMiddleware');
 const { authorizeRoles } = require('../middleware/roleMiddleware');
 
 const router = express.Router();
+
+// GET /api/departments/count - Total Department Count KPI
+router.get(
+  '/count', 
+  protect, 
+  getDepartmentCount
+);
 
 // POST /api/departments/add - only accessible by users with 'admin' role
 // The `protect` middleware handles token verification

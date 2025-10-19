@@ -11,15 +11,33 @@
 
   <!-- Right side icons / user profile -->
   <div class="flex items-center space-x-4">
+    <!-- Notifications -->
     <button class="p-2 rounded hover:bg-indigo-500 transition">
       <mat-icon>notifications</mat-icon>
     </button>
+
+    <!-- Settings -->
     <button class="p-2 rounded hover:bg-indigo-500 transition">
       <mat-icon>settings</mat-icon>
     </button>
-    <div class="relative">
-      <img src="https://i.pravatar.cc/40" alt="User" class="w-10 h-10 rounded-full border-2 border-white">
+
+    <!-- User Avatar with dropdown -->
+    <div class="relative" (click)="toggleUserMenu()">
+      <img src="https://i.pravatar.cc/40" alt="User" class="w-10 h-10 rounded-full border-2 border-white cursor-pointer">
       <span class="absolute bottom-0 right-0 w-3 h-3 bg-green-500 border-2 border-white rounded-full"></span>
+
+      <!-- Dropdown menu -->
+      <div
+        *ngIf="userMenuOpen"
+        class="absolute right-0 mt-2 w-36 bg-white text-black rounded shadow-lg z-50"
+      >
+        <button class="block w-full text-left px-4 py-2 hover:bg-gray-200" (click)="navigateToProfile()">
+          Profile
+        </button>
+        <button class="block w-full text-left px-4 py-2 hover:bg-gray-200 text-red-600" (click)="logout()">
+          Logout
+        </button>
+      </div>
     </div>
   </div>
 </header>

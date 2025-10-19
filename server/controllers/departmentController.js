@@ -75,4 +75,26 @@ const deleteDepartment = async (req, res) => {
     res.status(500).json({ message: 'Server error', error: error.message });
   }
 };
-module.exports = { addDepartment,getDepartments,updateDepartment,deleteDepartment};
+
+/**
+ * @desc    Get the total count of all departments
+ * @route   GET /api/departments/count
+ * @access  Private
+ */
+const getDepartmentCount = async (req, res) => {
+    try {
+        // Count all documents in the Department collection
+        const count = await Department.countDocuments({}); 
+
+        res.status(200).json({ 
+            totalDepartments: count 
+        });
+
+    } catch (error) {
+        res.status(500).json({ 
+            message: 'Server error fetching department count.', 
+            error: error.message 
+        });
+    }
+};
+module.exports = { addDepartment,getDepartments,updateDepartment,deleteDepartment,getDepartmentCount};

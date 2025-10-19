@@ -1,9 +1,95 @@
 const Employee = require("../models/Employee");
+const User = require('../models/User');
+const bcrypt = require('bcrypt');
+// @desc    Create a new employee
+// @route   POST /api/employees/add
+// @desc    Create a new employee
+// @route   POST /api/employees/add
+// const addEmployee = async (req, res) => {
+//   try {
+//     const {
+//       empId,
+//       firstName,
+//       lastName,
+//       email,
+//       phone,
+//       department,
+//       position,
+//       dateOfBirth,
+//       gender,
+//       salary,
+//       password,
+//       role,
+//     } = req.body;
 
-// @desc    Create a new employee
-// @route   POST /api/employees/add
-// @desc    Create a new employee
-// @route   POST /api/employees/add
+//     // Check for required fields
+//     if (
+//       !empId||
+//       !firstName ||
+//       !lastName ||
+//       !email ||
+//       !department ||
+//       !position ||
+//       !role
+//     ) {
+//       return res
+//         .status(400)
+//         .json({ message: "Missing required employee fields" });
+//     }
+
+//     // Check if employee already exists by email
+//     const exists = await Employee.findOne({ email });
+//     if (exists) {
+//       return res
+//         .status(400)
+//         .json({ message: "Employee with this email already exists" });
+//     }
+
+//     // ✅ Handle address from FormData
+//     let address = {};
+//     if (req.body.address) {
+//       // If Angular sent JSON string
+//       try {
+//         address = JSON.parse(req.body.address);
+//       } catch (err) {
+//         address = req.body.address; // fallback
+//       }
+//     } else {
+//       // If Angular sent nested keys
+//       address = {
+//         street: req.body["address[street]"],
+//         city: req.body["address[city]"],
+//         state: req.body["address[state]"],
+//         zipCode: req.body["address[zipCode]"],
+//       };
+//     }
+
+//     const photo = req.file ? `uploads/${req.file.filename}` : null;
+
+//     const employee = await Employee.create({
+//       empId,
+//       firstName,
+//       lastName,
+//       email,
+//       phone,
+//       department,
+//       position,
+//       dateOfBirth,
+//       gender,
+//       salary,
+//       password,
+//       address,
+//       user: req.user?.id || null, // optional: link to logged-in user
+//       photo,
+//       role,
+//     });
+
+//     res.status(201).json(employee);
+//   } catch (error) {
+//     console.error(error);
+//     res.status(500).json({ message: "Server error", error: error.message });
+//   }
+// };
 const addEmployee = async (req, res) => {
   try {
     const {
@@ -21,40 +107,31 @@ const addEmployee = async (req, res) => {
       role,
     } = req.body;
 
-    // Check for required fields
-    if (
-      !empId||
-      !firstName ||
-      !lastName ||
-      !email ||
-      !department ||
-      !position ||
-      !role
-    ) {
-      return res
-        .status(400)
-        .json({ message: "Missing required employee fields" });
+    // 🔹 Validate required fields
+    if (!empId || !firstName || !lastName || !email || !department || !position) {
+      return res.status(400).json({ message: "Missing required employee fields" });
     }
 
-    // Check if employee already exists by email
-    const exists = await Employee.findOne({ email });
-    if (exists) {
-      return res
-        .status(400)
-        .json({ message: "Employee with this email already exists" });
+    // 🔹 Check if email already exists in Employee or User
+    const existingEmployee = await Employee.findOne({ email });
+    const existingUser = await User.findOne({ email });
+    if (existingEmployee || existingUser) {
+      return res.status(400).json({ message: "Employee with this email already exists" });
     }
 
-    // ✅ Handle address from FormData
+    // 🔹 Generate or hash password
+    // const plainPassword = password || "Emp@" + Math.floor(Math.random() * 10000);
+    // const hashedPassword = await bcrypt.hash(plainPassword, 10);
+
+    // 🔹 Handle address
     let address = {};
     if (req.body.address) {
-      // If Angular sent JSON string
       try {
         address = JSON.parse(req.body.address);
-      } catch (err) {
-        address = req.body.address; // fallback
+      } catch {
+        address = req.body.address;
       }
     } else {
-      // If Angular sent nested keys
       address = {
         street: req.body["address[street]"],
         city: req.body["address[city]"],
@@ -63,9 +140,22 @@ const addEmployee = async (req, res) => {
       };
     }
 
+    // 🔹 Handle photo
     const photo = req.file ? `uploads/${req.file.filename}` : null;
 
-    const employee = await Employee.create({
+    // 🔹 Ensure role is lowercase for consistency
+    const roleValue = role ? role.toLowerCase() : "employee";
+
+    // 🔹 Create a User record for login
+    const newUser = await User.create({
+      name: `${firstName} ${lastName}`,
+      email,
+      password,
+      role: roleValue,
+    });
+
+    // 🔹 Create Employee record
+    const newEmployee = await Employee.create({
       empId,
       firstName,
       lastName,
@@ -78,17 +168,24 @@ const addEmployee = async (req, res) => {
       salary,
       password,
       address,
-      user: req.user?.id || null, // optional: link to logged-in user
       photo,
-      role,
+      role: roleValue,
+      user: newUser._id,
     });
 
-    res.status(201).json(employee);
+    // 🔹 Return response with temporary password
+    res.status(201).json({
+      message: "Employee created successfully",
+      employee: newEmployee,
+      credentials: { email, password },
+    });
   } catch (error) {
-    console.error(error);
+    console.error("❌ Error adding employee:", error);
     res.status(500).json({ message: "Server error", error: error.message });
   }
 };
+
+
 
 // @desc    Get all employees
 // @route   GET /api/employees
@@ -223,6 +320,88 @@ const deleteEmployee = async (req, res) => {
   }
 };
 
+/**
+ * @desc    Get the total count of all active employees
+ * @route   GET /api/employees/count
+ * @access  Private
+ */
+const getEmployeeCount = async (req, res) => {
+    try {
+        // Use countDocuments() for maximum efficiency on large collections
+        const count = await Employee.countDocuments({}); 
+
+        res.status(200).json({ 
+            totalEmployees: count 
+        });
+
+    } catch (error) {
+        res.status(500).json({ 
+            message: 'Server error fetching employee count.', 
+            error: error.message 
+        });
+    }
+};
+
+/**
+ * @desc    Get the count of employees with a status of "Active"
+ * @route   GET /api/employees/active-count
+ * @access  Private
+ */
+const getActiveEmployeeCount = async (req, res) => {
+    try {
+        // Query to count only documents where the status field is "Active"
+        const count = await Employee.countDocuments({ status: "Active" }); 
+
+        res.status(200).json({ 
+            activeEmployees: count 
+        });
+
+    } catch (error) {
+        res.status(500).json({ 
+            message: 'Server error fetching active employee count.', 
+            error: error.message 
+        });
+    }
+};
+
+/**
+ * @desc    Get the count of employees hired within the last N days
+ * @route   GET /api/employees/new?days=30
+ * @access  Private
+ * @query   days={number} (Defaults to 30)
+ */
+const getNewHiresCount = async (req, res) => {
+    try {
+        // 1. Get the number of days from the query parameter, default to 30
+        const days = parseInt(req.query.days) || 30; 
+
+        // 2. Calculate the cutoff date (Today - N days)
+        const cutoffDate = new Date();
+        // Set the date back by the specified number of days
+        cutoffDate.setDate(cutoffDate.getDate() - days); 
+
+        // 3. Define the query: hireDate greater than or equal to the cutoff date
+        const query = {
+            hireDate: { $gte: cutoffDate },
+            // Optional: You might want to exclude terminated employees from the count
+            // status: { $ne: 'Terminated' } 
+        };
+
+        // 4. Count the documents matching the query
+        const count = await Employee.countDocuments(query); 
+
+        res.status(200).json({ 
+            newHires: count,
+            days: days 
+        });
+
+    } catch (error) {
+        res.status(500).json({ 
+            message: 'Server error fetching new hires count.', 
+            error: error.message 
+        });
+    }
+};
 module.exports = {
   addEmployee,
   getEmployees,
@@ -230,4 +409,7 @@ module.exports = {
  getEmployeeById,
   updateEmployee,
   deleteEmployee,
+  getEmployeeCount,
+  getActiveEmployeeCount,
+  getNewHiresCount
 };

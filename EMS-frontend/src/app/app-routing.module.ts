@@ -30,7 +30,7 @@ const routes: Routes = [
     path: 'user',
     component: UserLayoutComponent,
     canActivate: [GuardGuard, RoleGuard],
-    data: { role: 'user' },
+    data: { role: 'employee' },
     children: [
       {
         path: '',
