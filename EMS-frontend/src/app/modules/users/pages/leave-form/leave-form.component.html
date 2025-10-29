@@ -1,0 +1,58 @@
+<div class="max-w-2xl mx-auto bg-white p-8 rounded-2xl shadow-lg mt-10">
+  <h2 class="text-2xl font-semibold mb-6 text-indigo-600 text-center">
+    Request Leave
+  </h2>
+
+  <form [formGroup]="leaveForm" (ngSubmit)="onSubmit()" class="space-y-6">
+    <!-- Leave Type -->
+    <mat-form-field appearance="fill" class="w-full">
+      <mat-label>Leave Type</mat-label>
+      <mat-select formControlName="leaveType">
+        <mat-option *ngFor="let type of leaveTypes" [value]="type">{{ type }}</mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <!-- Date Range -->
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+      <mat-form-field appearance="fill" class="w-full">
+        <mat-label>Start Date</mat-label>
+        <input matInput [matDatepicker]="picker1" formControlName="startDate" (dateChange)="onDateChange($event)" [min]="minDate">
+        <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
+        <mat-datepicker #picker1></mat-datepicker>
+      </mat-form-field>
+
+      <mat-form-field appearance="fill" class="w-full">
+        <mat-label>End Date</mat-label>
+        <input matInput [matDatepicker]="picker2" formControlName="endDate" (dateChange)="onDateChange($event)" [min]="minDate">
+        <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
+        <mat-datepicker #picker2></mat-datepicker>
+        <mat-error *ngIf="leaveForm.get('endDate')?.hasError('invalidRange')">
+          End date cannot be before start date
+        </mat-error>
+      </mat-form-field>
+    </div>
+
+    <!-- Reason -->
+    <mat-form-field appearance="fill" class="w-full">
+      <mat-label>Reason</mat-label>
+      <textarea matInput rows="3" formControlName="reason"></textarea>
+    </mat-form-field>
+
+    <!-- Submit Button -->
+    <div class="flex justify-center">
+      <button
+        mat-raised-button
+        color="primary"
+        class="px-10 py-2 rounded-lg shadow"
+        type="submit"
+      >
+        Submit Request
+      </button>
+    </div>
+
+    <!-- Message -->
+    <p *ngIf="message" class="text-center mt-4 text-green-600 font-medium">
+      {{ message }}
+    </p>
+  </form>
+</div>

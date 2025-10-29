@@ -8,7 +8,9 @@ const {
   deleteEmployee,
   getEmployeeCount,
   getActiveEmployeeCount,
-  getNewHiresCount
+  getNewHiresCount,
+  getEmployeeProfileSelf
+  
 } = require("../controllers/employeeController");
 const { protect } = require("../middleware/authMiddleware");
 const upload = require("../middleware/photoUpload");
@@ -29,6 +31,9 @@ router.get(
   protect, 
   getNewHiresCount
 );
+// Employee fetch self
+router.get("/me", protect, getEmployeeProfileSelf);
+
 // Get all employees (accessible to all authenticated users)
 router.get("/", protect, getEmployees);
 

@@ -1,0 +1,27 @@
+<p>profile-summary works!</p>
+<mat-card class="shadow-lg rounded-2xl p-6 bg-white flex flex-col md:flex-row items-center md:items-start gap-6 max-w-4xl mx-auto">
+  <!-- Profile Image -->
+  <div class="flex-shrink-0">
+    <img
+      [src]="employee?.photo "
+      alt="Profile Photo"
+      class="w-36 h-36 rounded-full object-cover border-4 border-indigo-500 shadow-md"
+    />
+  </div>
+
+  <!-- Info Section -->
+  <div class="flex-1 text-center md:text-left">
+    <h2 class="text-2xl font-bold text-gray-800">
+      {{ employee?.firstName }} {{ employee?.lastName }}
+    </h2>
+    <p class="text-indigo-600 font-medium">{{ employee?.position }}</p>
+    <p class="text-gray-500">{{ employee?.department?.name }} Department</p>
+
+    <div class="mt-4 grid grid-cols-1 md:grid-cols-2 gap-2 text-gray-700">
+      <p><strong>Employee ID:</strong> {{ employee?.empId }}</p>
+      <p><strong>Joined:</strong> {{ employee?.hireDate | date: 'mediumDate' }}</p>
+      <p><strong>Email:</strong> {{ employee?.email }}</p>
+      <p><strong>Phone:</strong> {{ employee?.phone }}</p>
+    </div>
+  </div>
+</mat-card>

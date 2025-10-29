@@ -11,6 +11,7 @@ import { AuthService } from 'src/app/core/service/auth.service';
 export class LoginComponent implements OnInit {
   loginForm: FormGroup;
   errorMessage: string = '';
+  isLoading:boolean=false
 
   constructor(
     private fb: FormBuilder,
@@ -25,24 +26,24 @@ export class LoginComponent implements OnInit {
 
   onSubmit() {
     if (this.loginForm.valid) {
-      this.authService.login(this.loginForm.value).subscribe({
-        next: (res) => {
+    this.authService.login(this.loginForm.value).subscribe({
+      next: (res) => {
           console.log('Login successful', res);
           localStorage.setItem('token', res.token); // store JWT token
           localStorage.setItem('user', JSON.stringify(res.user));
           // Navigate to admin or user dashboard based on role
           // Navigate to dashboard based on role
           if (res.user.role === 'admin') {
-            this.router.navigate(['/admin/dashboard']);
-          } else {
+          this.router.navigate(['/admin/dashboard']);
+        } else {
             this.router.navigate(['/user']);
-          }
-        },
-        error: (err) => {
+        }
+      },
+      error: (err) => {
           console.error(err);
           this.errorMessage = err.error.message || 'Login failed';
-        },
-      });
+      },
+    });
     }
   }
 

@@ -1,0 +1,92 @@
+<div class="p-4">
+  <!-- Toggle Button -->
+  <button mat-raised-button color="primary" (click)="toggleForm()">
+    {{ showLeaveForm ? 'Cancel' : 'Add Leave' }}
+  </button>
+
+  <!-- Leave Form -->
+  <div *ngIf="showLeaveForm" class="mt-4">
+    <app-leave-form (leaveAdded)="onLeaveAdded($event)"></app-leave-form>
+  </div>
+
+  <!-- Leave Table -->
+  <div *ngIf="!showLeaveForm" class="mt-6">
+    <mat-form-field appearance="outline" class="w-full my-4">
+      <mat-label>Search</mat-label>
+      <input
+        matInput
+        (keyup)="applyFilter($event)"
+        placeholder="Search leaves..."
+      />
+    </mat-form-field>
+
+    <div class="overflow-auto">
+      <table
+        mat-table
+        [dataSource]="dataSource"
+        matSort
+        class="mat-elevation-z8 min-w-[800px] w-full"
+      >
+        <!-- Dynamic Columns -->
+        <ng-container
+          *ngFor="let column of displayedColumns"
+          [matColumnDef]="column"
+        >
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>
+            {{ column | titlecase }}
+          </th>
+          <!-- <td mat-cell *matCellDef="let element">
+            <span
+              *ngIf="column === 'status'"
+              [ngClass]="{
+                'text-green-600': element[column] === 'Approved',
+                'text-red-600': element[column] === 'Rejected',
+                'text-yellow-600': element[column] === 'Pending'
+              }"
+            >
+              {{ element[column] }}
+            </span>
+            <span *ngIf="column !== 'status'">{{ element[column] }}</span>
+          </td> -->
+          <td mat-cell *matCellDef="let element">
+          <!-- Status color -->
+          <span *ngIf="column === 'status'"
+            [ngClass]="{
+              'text-green-600': element[column] === 'Approved',
+              'text-red-600': element[column] === 'Rejected',
+              'text-yellow-600': element[column] === 'Pending'
+            }">
+            {{ element[column] }}
+          </span>
+
+          <!-- Actions buttons -->
+          <ng-container *ngIf="column === 'actions'">
+            <button mat-icon-button color="primary" (click)="viewLeave(element._id)">
+              <mat-icon>visibility</mat-icon>
+            </button>
+            <button
+              mat-icon-button
+              color="warn"
+              (click)="cancelLeave(element._id)"
+              [disabled]="element.status !== 'Pending'"
+            >
+              <mat-icon>cancel</mat-icon>
+            </button>
+          </ng-container>
+
+          <!-- Other columns -->
+          <span *ngIf="column !== 'status' && column !== 'actions'">{{ element[column] }}</span>
+        </td>
+        </ng-container>
+
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+      </table>
+
+      <mat-paginator
+        [pageSizeOptions]="[5, 10, 20]"
+        showFirstLastButtons
+      ></mat-paginator>
+    </div>
+  </div>
+</div>

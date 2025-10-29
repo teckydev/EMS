@@ -25,6 +25,10 @@ private baseUrl = `${environment.apiUrl}/admin`; // From environment.ts
     const user = localStorage.getItem('user');
     return user ? JSON.parse(user).role : null;
   }
+getUserId(): string | null {
+  const user = localStorage.getItem('user');
+  return user ? JSON.parse(user)._id : null;
+}
 
   logout(): void {
     localStorage.clear();

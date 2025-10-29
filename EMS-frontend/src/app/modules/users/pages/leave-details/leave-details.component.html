@@ -1,0 +1,11 @@
+<h2 mat-dialog-title>Leave Details</h2>
+    <mat-dialog-content>
+      <p><strong>Leave Type:</strong> {{ data.leaveType }}</p>
+      <p><strong>From:</strong> {{ data.startDate | date:'mediumDate' }}</p>
+      <p><strong>To:</strong> {{ data.endDate | date:'mediumDate' }}</p>
+      <p><strong>Reason:</strong> {{ data.reason }}</p>
+      <p><strong>Status:</strong> {{ data.status }}</p>
+    </mat-dialog-content>
+    <mat-dialog-actions align="end">
+      <button mat-button mat-dialog-close>Close</button>
+    </mat-dialog-actions>

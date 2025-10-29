@@ -201,18 +201,7 @@ const getEmployees = async (req, res) => {
   }
 };
 
-// @desc    Get a single employee by ID
-// @route   GET /api/employees/:id
-// GET /api/employees/department/:deptId
-// const getEmployeesByDepartment = async (req, res) => {
-//   try {
-//     // const deptId = mongoose.Types.ObjectId(req.params.deptId);
-//     const employees = await Employee.find({ department: deptId });
-//     res.status(200).json(employees);
-//   } catch (err) {
-//     res.status(500).json({ message: "Server error", error: err.message });
-//   }
-// };
+
 const getEmployeesByDepartment = async (req, res) => {
   const { id } = req.params; // department id
   console.log("Department ID received:", id); // ✅ Debug
@@ -234,17 +223,71 @@ const getEmployeesByDepartment = async (req, res) => {
   }
 };
 // GET /api/employees/:id
+// const getEmployeeById = async (req, res) => {
+//  try {
+//     const employee = await Employee.findById(req.params.id).populate("department");
+//     if (!employee) {
+//       return res.status(404).json({ message: "Employee not found" });
+//     }
+//     res.status(200).json(employee);
+//   } catch (error) {
+//     res.status(500).json({ message: "Server error", error: error.message });
+//   }
+// };
+
+// @desc    Get employee by ID or userId (common for admin & employee)
+// @route   GET /api/employees/:id
 const getEmployeeById = async (req, res) => {
+  const { id } = req.params; // get id from route param
+
   try {
-    const employee = await Employee.findById(req.params.id).populate("department");
+    let employee;
+
+    // 1️⃣ Try to find employee by Employee ID
+    employee = await Employee.findById(id)
+      .populate("user", "-password") // populate linked User but exclude password
+      .populate("department");
+
+    // 2️⃣ If not found, try by userId (for logged-in employee)
     if (!employee) {
-      return res.status(404).json({ message: "Employee not found" });
+      employee = await Employee.findOne({ user: id })
+        .populate("user", "-password")
+        .populate("department");
     }
-    res.status(200).json(employee);
+
+    // 3️⃣ If still not found
+    if (!employee) {
+      return res.status(404).json({ success: false, message: "Employee not found" });
+    }
+
+    // ✅ Success
+    return res.status(200).json({ success: true, employee });
+
   } catch (error) {
-    res.status(500).json({ message: "Server error", error: error.message });
+    console.error("Error fetching employee:", error);
+    return res.status(500).json({
+      success: false,
+      message: "Server error while fetching employee",
+      error: error.message
+    });
   }
 };
+const getEmployeeProfileSelf = async (req, res) => {
+  try {
+    const userId = req.user.id;
+    const employee = await Employee.findOne({ user: userId })
+      .populate("user", "-password")
+      .populate("department");
+    if (!employee)
+      return res.status(404).json({ success: false, message: "Employee not found" });
+    res.status(200).json({ success: true, employee });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ success: false, message: "Server error while fetching employee" });
+  }
+};
+
+
 
 const updateEmployee = async (req, res) => {
   try {
@@ -411,5 +454,6 @@ module.exports = {
   deleteEmployee,
   getEmployeeCount,
   getActiveEmployeeCount,
-  getNewHiresCount
+  getNewHiresCount,
+  getEmployeeProfileSelf
 };

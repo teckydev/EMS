@@ -28,7 +28,7 @@ setMenu() {
          { label: 'Dashboard', icon: 'dashboard', route: '/user/dashboard' },
         { label: 'Profile', icon: 'person', route: '/user/profile' },
 
-      { label: 'Leave', icon: 'event_note', route: '/user/leave' },
+      { label: 'Leave', icon: 'event_note', route: '/user/list' },
       { label: 'Salary', icon: 'attach_money', route: '/user/salary' },
       { label: 'Setting', icon: 'settings', route: '/user/setting' },
         { label: 'Tasks', icon: 'check_circle', route: '/user/tasks' },

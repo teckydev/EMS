@@ -2,13 +2,14 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Employee } from '../model/Employee';
 import { Observable } from 'rxjs';
+import { AuthService } from './auth.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class EmployeeService {
  private apiUrl = 'http://localhost:5000/api/employees';
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient,private authService:AuthService) { }
    getEmployees(): Observable<Employee[]> {
     return this.http.get<any[]>(this.apiUrl);
   }
@@ -19,6 +20,11 @@ export class EmployeeService {
 getEmployeeById(id: string) {
   return this.http.get<any>(`${this.apiUrl}/${id}`);
 }
+// Employee fetch own profile
+  getMyProfile(): Observable<any> {
+    return this.http.get(`${this.apiUrl}/me`);
+  }
+
 
 
   addEmployee(formData: FormData): Observable<Employee> {
