@@ -12,6 +12,7 @@ import { LeaveFormComponent } from './pages/leave-form/leave-form.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ListComponent } from './pages/list/list.component';
 import { LeaveDetailsComponent } from './pages/leave-details/leave-details.component';
+import { EmpSalaryComponent } from './pages/emp-salary/emp-salary.component';
 
 
 @NgModule({
@@ -21,7 +22,8 @@ import { LeaveDetailsComponent } from './pages/leave-details/leave-details.compo
     ProfileSummaryComponent,
     LeaveFormComponent,
     ListComponent,
-    LeaveDetailsComponent
+    LeaveDetailsComponent,
+    EmpSalaryComponent
   ],
   imports: [
     CommonModule,

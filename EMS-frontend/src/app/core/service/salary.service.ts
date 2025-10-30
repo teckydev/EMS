@@ -21,6 +21,10 @@ export class SalaryService {
   getSalaryById(salaryId: string): Observable<any> {
     return this.http.get<any>(`${this.apiUrl}/${salaryId}`);
   }
+  getSalaryForEmployee() {
+  return this.http.get<any>(`${this.apiUrl}/view-salary`);
+}
+
    // Update existing salary
   updateSalary(salaryId: string, salaryData: any): Observable<any> {
     return this.http.put(`${this.apiUrl}/${salaryId}`, salaryData);

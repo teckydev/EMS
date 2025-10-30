@@ -5,6 +5,7 @@ import { UsersComponent } from './users.component';
 import { LeaveFormComponent } from './pages/leave-form/leave-form.component';
 import { ListComponent } from './pages/list/list.component';
 import { LeaveDetailsComponent } from './pages/leave-details/leave-details.component';
+import { EmpSalaryComponent } from './pages/emp-salary/emp-salary.component';
 
 const routes: Routes = [
   {
@@ -21,6 +22,8 @@ const routes: Routes = [
   },
   {
     path:'detail/:id',component:LeaveDetailsComponent
+  },{
+    path:'salary',component:EmpSalaryComponent
   }
 ];
 
