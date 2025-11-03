@@ -13,6 +13,9 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ListComponent } from './pages/list/list.component';
 import { LeaveDetailsComponent } from './pages/leave-details/leave-details.component';
 import { EmpSalaryComponent } from './pages/emp-salary/emp-salary.component';
+import { ChangePasswordComponent } from './pages/emp-settings/change-password/change-password.component';
+import { EditProfileComponent } from './pages/emp-settings/edit-profile/edit-profile.component';
+import { EmployeeSettingsComponent } from './pages/emp-settings/employee-settings.component';
 
 
 @NgModule({
@@ -23,7 +26,10 @@ import { EmpSalaryComponent } from './pages/emp-salary/emp-salary.component';
     LeaveFormComponent,
     ListComponent,
     LeaveDetailsComponent,
-    EmpSalaryComponent
+    EmpSalaryComponent,
+    ChangePasswordComponent,
+    EditProfileComponent,
+    EmployeeSettingsComponent
   ],
   imports: [
     CommonModule,
