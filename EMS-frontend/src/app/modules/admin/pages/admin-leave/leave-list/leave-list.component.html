@@ -1,0 +1,41 @@
+<div *ngIf="loading" class="flex justify-center py-8">
+    <mat-spinner diameter="50"></mat-spinner>
+  </div>
+  <div class="flex gap-3 mb-4">
+    <button
+      mat-raised-button
+      [color]="selectedStatus === 'All' ? 'primary' : undefined"
+      (click)="filterByStatus('All')">
+      All
+    </button>
+
+    <button
+      mat-raised-button
+      [color]="selectedStatus === 'Pending' ? 'accent' : undefined"
+      (click)="filterByStatus('Pending')">
+      Pending
+    </button>
+
+    <button
+      mat-raised-button
+      [color]="selectedStatus === 'Approved' ? 'success' : undefined"
+      (click)="filterByStatus('Approved')">
+      Approved
+    </button>
+
+    <button
+      mat-raised-button
+      [color]="selectedStatus === 'Rejected' ? 'warn' : undefined"
+      (click)="filterByStatus('Rejected')">
+      Rejected
+    </button>
+  </div>
+<app-data-table [columns]="columns"
+  [showActions]="true"
+  [showView]="true"
+  [showSalary]="false"
+    [dataSource]="filteredLeaves"
+  (view)="onView($event)"
+ >
+
+</app-data-table>
