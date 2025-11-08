@@ -7,6 +7,8 @@ import { AddDepartmentComponent } from './pages/add-department/add-department.co
 import { EmployeeComponent } from './pages/employee/employee.component';
 import { AddSalaryComponent } from './pages/salary/add-salary/add-salary.component';
 import { ViewSalaryComponent } from './pages/salary/view-salary/view-salary.component';
+import { LeaveListComponent } from './pages/admin-leave/leave-list/leave-list.component';
+import { LeaveDetailComponent } from './pages/admin-leave/leave-detail/leave-detail.component';
 
 const routes: Routes = [
   { path: 'dashboard', component: AdminDashboardComponent },
@@ -20,7 +22,8 @@ const routes: Routes = [
   },
   { path: 'view-salary/:employeeId', component: ViewSalaryComponent },
  
-
+{ path: 'leave', component: LeaveListComponent },
+{ path: 'leaves/:id/status', component: LeaveDetailComponent }
   // { path: '', redirectTo: 'dashboard', pathMatch: 'full' }
 ];
 

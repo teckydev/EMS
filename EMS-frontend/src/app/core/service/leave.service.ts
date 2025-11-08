@@ -23,5 +23,15 @@ private apiUrl = 'http://localhost:5000/api';
 cancelLeave(id: string) {
   return this.http.delete(`${this.apiUrl}/leaves/${id}`);
 }
+// Get all leave requests-admin
+  getAllLeaves(): Observable<any[]> {
+    return this.http.get<any[]>(`${this.apiUrl}/leaves/all`);
+  }
+
+  // Update leave status-admin
+  updateLeaveStatus(id: string, status: string, comments?: string): Observable<any> {
+  return this.http.put(`${this.apiUrl}/leaves/${id}/status`, { status, comments });
+}
+
 
 }

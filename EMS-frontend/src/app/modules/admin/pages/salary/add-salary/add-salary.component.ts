@@ -87,7 +87,7 @@ export class AddSalaryComponent implements OnInit {
 
     this.employeeService.getEmployeeById(empId).subscribe({
       next: (emp) => {
-        this.selectedEmployee = emp;
+        this.selectedEmployee = emp.employee;
         console.log(this.selectedEmployee, 'emmmmm');
       },
       error: (err) => console.error('Error fetching employee:', err),

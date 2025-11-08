@@ -1,7 +1,8 @@
 const express = require('express');
 const { body } = require('express-validator');
-const { register, login } = require('../controllers/authController');
+const { register, login, changePassword } = require('../controllers/authController');
 const router = express.Router();
+const { protect } = require('../middleware/authMiddleware');
 
 /**
  * @route POST /auth/register
@@ -38,6 +39,12 @@ router.post(
     body('password').notEmpty().withMessage('Password required')
   ],
   login
+);
+// NEW: PUT /api/auth/change-password
+router.put(
+  '/change-password',
+    protect, // Must be logged in
+    changePassword
 );
 
 module.exports = router;
