@@ -1,0 +1,95 @@
+<div class="p-6 bg-white rounded-lg shadow-md max-w-4xl mx-auto">
+  <h2 class="text-xl font-semibold mb-4">Attendance & Working Hours Configuration</h2>
+
+  <form (ngSubmit)="saveAttendanceSettings()" class="space-y-6">
+    <!-- Working Hours -->
+    <div class="grid grid-cols-2 gap-6">
+      <mat-form-field appearance="outline">
+        <mat-label>Default Start Time</mat-label>
+        <input
+          matInput
+          type="time"
+          [(ngModel)]="attendanceSettings.defaultStartTime"
+          name="defaultStartTime"
+          required
+        />
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label>Default End Time</mat-label>
+        <input
+          matInput
+          type="time"
+          [(ngModel)]="attendanceSettings.defaultEndTime"
+          name="defaultEndTime"
+          required
+        />
+      </mat-form-field>
+    </div>
+
+    <!-- Overtime Toggle -->
+    <mat-slide-toggle
+      [(ngModel)]="attendanceSettings.overtimeEnabled"
+      name="overtimeEnabled"
+    >
+      Enable Overtime Policy
+    </mat-slide-toggle>
+
+    <!-- Public Holidays -->
+<!-- Public Holidays -->
+<div class="mt-8">
+  <h3 class="text-lg font-semibold mb-2">Public Holidays</h3>
+
+  <div
+    *ngFor="let holiday of attendanceSettings.publicHolidays; let i = index"
+    class="flex items-center gap-4 mb-3"
+  >
+    <!-- Holiday Name -->
+    <mat-form-field appearance="outline" class="flex-1">
+      <mat-label>Holiday Name</mat-label>
+      <input
+        matInput
+        [(ngModel)]="holiday.name"
+        name="holidayName{{ i }}"
+        placeholder="e.g. Republic Day"
+      />
+    </mat-form-field>
+
+    <!-- Holiday Date -->
+    <mat-form-field appearance="outline" class="flex-1">
+      <mat-label>Date</mat-label>
+      <input
+        matInput
+        [matDatepicker]="picker"
+        [(ngModel)]="holiday.date"
+        name="holidayDate{{ i }}"
+      />
+      <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+      <mat-datepicker #picker></mat-datepicker>
+    </mat-form-field>
+
+    <!-- Delete Button -->
+    <button
+      mat-icon-button
+      color="warn"
+      (click)="removeHoliday(i)"
+      aria-label="Remove Holiday"
+    >
+      <mat-icon>delete</mat-icon>
+    </button>
+  </div>
+
+  <!-- Add Button -->
+  <button mat-stroked-button color="primary" (click)="addHoliday()" type="button">cd
+    <mat-icon>add</mat-icon> Add Holiday
+  </button>
+</div>
+
+    <!-- Save Button -->
+    <div class="flex justify-end mt-6">
+      <button mat-raised-button color="accent" type="submit" [disabled]="loading">
+        Save Changes
+      </button>
+    </div>
+  </form>
+</div>

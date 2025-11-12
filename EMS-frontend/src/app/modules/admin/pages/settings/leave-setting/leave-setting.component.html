@@ -1,0 +1,57 @@
+<div class="p-6 bg-white rounded-lg shadow-md max-w-3xl mx-auto">
+  <h2 class="text-xl font-semibold mb-6">Leave Policy Configuration</h2>
+
+  <form (ngSubmit)="saveLeaveSettings()" class="space-y-6">
+
+    <!-- Annual Leaves -->
+    <mat-form-field appearance="outline" class="w-full">
+      <mat-label>Maximum Annual Leaves</mat-label>
+      <input
+        matInput
+        type="number"
+        [(ngModel)]="leaveSettings.maxAnnualLeaves"
+        name="maxAnnualLeaves"
+        required
+      />
+    </mat-form-field>
+
+    <!-- Casual Leaves -->
+    <mat-form-field appearance="outline" class="w-full">
+      <mat-label>Maximum Casual Leaves</mat-label>
+      <input
+        matInput
+        type="number"
+        [(ngModel)]="leaveSettings.maxCasualLeaves"
+        name="maxCasualLeaves"
+        required
+      />
+    </mat-form-field>
+
+    <!-- Sick Leaves -->
+    <mat-form-field appearance="outline" class="w-full">
+      <mat-label>Maximum Sick Leaves</mat-label>
+      <input
+        matInput
+        type="number"
+        [(ngModel)]="leaveSettings.maxSickLeaves"
+        name="maxSickLeaves"
+        required
+      />
+    </mat-form-field>
+
+    <!-- Carry Forward -->
+    <mat-slide-toggle
+      [(ngModel)]="leaveSettings.allowCarryForward"
+      name="allowCarryForward"
+    >
+      Allow Carry Forward of Unused Leaves
+    </mat-slide-toggle>
+
+    <!-- Save Button -->
+    <div class="flex justify-end mt-6">
+      <button mat-raised-button color="primary" type="submit">
+        Save Changes
+      </button>
+    </div>
+  </form>
+</div>

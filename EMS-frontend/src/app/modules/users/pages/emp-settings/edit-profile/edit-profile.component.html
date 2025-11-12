@@ -1,0 +1,169 @@
+<div class="max-w-4xl mx-auto p-4 sm:p-6 md:p-8">
+  <h1 class="text-3xl font-semibold text-gray-800 mb-6">Account Settings</h1>
+
+  <mat-tab-group animationDuration="0ms">
+    
+    <mat-tab label="Profile Information">
+      <div class="p-6">
+        <form [formGroup]="profileForm" (ngSubmit)="onProfileSubmit()">
+          <h3 class="text-lg font-medium text-gray-700 mb-4">
+            Edit Your Details
+          </h3>
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-x-6 gap-y-2">
+            
+            <mat-form-field appearance="outline" class="w-full">
+              <mat-label>First Name</mat-label>
+              <input matInput formControlName="firstName" />
+              <mat-error *ngIf="profileForm.get('firstName')?.hasError('required')">
+                First name is required
+              </mat-error>
+            </mat-form-field>
+
+            <mat-form-field appearance="outline" class="w-full">
+              <mat-label>Last Name</mat-label>
+              <input matInput formControlName="lastName" />
+              <mat-error *ngIf="profileForm.get('lastName')?.hasError('required')">
+                Last name is required
+              </mat-error>
+            </mat-form-field>
+
+            <mat-form-field appearance="outline" class="w-full md:col-span-2">
+              <mat-label>Email Address</mat-label>
+              <input matInput formControlName="email" type="email" />
+              <mat-error *ngIf="email?.hasError('required')">
+                Email is required
+              </mat-error>
+              <mat-error *ngIf="email?.hasError('email')">
+                Please enter a valid email address
+              </mat-error>
+            </mat-form-field>
+
+            <mat-form-field appearance="outline" class="w-full">
+              <mat-label>Phone Number</mat-label>
+              <input matInput formControlName="phone" />
+            </mat-form-field>
+
+            <mat-form-field appearance="outline" class="w-full">
+              <mat-label>Job Title</mat-label>
+              <input matInput formControlName="jobTitle" />
+            </mat-form-field>
+
+            <mat-form-field appearance="outline" class="w-full md:col-span-2">
+              <mat-label>Department</mat-label>
+              <input matInput formControlName="departmentName" />
+            </mat-form-field>
+          </div>
+
+          <div class="mt-6 flex justify-end">
+            <button
+              mat-raised-button
+              color="primary"
+              type="submit"
+              [disabled]="!profileForm.valid"
+            >
+              Save Changes
+            </button>
+          </div>
+        </form>
+      </div>
+    </mat-tab>
+
+    <mat-tab label="Change Password">
+      <div class="p-6">
+        <form
+          [formGroup]="passwordForm"
+          (ngSubmit)="onPasswordSubmit()"
+          class="max-w-lg mx-auto flex flex-col gap-2"
+        >
+          <h3 class="text-lg font-medium text-gray-700 mb-2">
+            Update Your Password
+          </h3>
+
+          <mat-form-field appearance="outline" class="w-full">
+            <mat-label>Current Password</mat-label>
+            <input
+              matInput
+              [type]="hideCurrent ? 'password' : 'text'"
+              formControlName="currentPassword"
+            />
+            <button
+              mat-icon-button
+              matSuffix
+              (click)="hideCurrent = !hideCurrent"
+              type="button"
+              [attr.aria-label]="'Hide password'"
+              [attr.aria-pressed]="hideCurrent"
+            >
+              <mat-icon>{{ hideCurrent ? 'visibility_off' : 'visibility' }}</mat-icon>
+            </button>
+            <mat-error *ngIf="passwordForm.get('currentPassword')?.hasError('required')">
+              Current password is required
+            </mat-error>
+          </mat-form-field>
+
+          <mat-form-field appearance="outline" class="w-full">
+            <mat-label>New Password</mat-label>
+            <input
+              matInput
+              [type]="hideNew ? 'password' : 'text'"
+              formControlName="newPassword"
+            />
+            <button
+              mat-icon-button
+              matSuffix
+              (click)="hideNew = !hideNew"
+              type="button"
+              [attr.aria-label]="'Hide password'"
+              [attr.aria-pressed]="hideNew"
+            >
+              <mat-icon>{{ hideNew ? 'visibility_off' : 'visibility' }}</mat-icon>
+            </button>
+            <mat-error *ngIf="newPassword?.hasError('required')">
+              New password is required
+            </mat-error>
+            <mat-error *ngIf="newPassword?.hasError('minlength')">
+              Password must be at least 8 characters long
+            </mat-error>
+          </mat-form-field>
+
+          <mat-form-field appearance="outline" class="w-full">
+            <mat-label>Confirm New Password</mat-label>
+            <input
+              matInput
+              [type]="hideConfirm ? 'password' : 'text'"
+              formControlName="confirmPassword"
+            />
+            <button
+              mat-icon-button
+              matSuffix
+              (click)="hideConfirm = !hideConfirm"
+              type="button"
+              [attr.aria-label]="'Hide password'"
+              [attr.aria-pressed]="hideConfirm"
+            >
+              <mat-icon>{{ hideConfirm ? 'visibility_off' : 'visibility' }}</mat-icon>
+            </button>
+            <mat-error *ngIf="confirmPassword?.hasError('required')">
+              Please confirm your new password
+            </mat-error>
+            <mat-error *ngIf="confirmPassword?.hasError('mustMatch')">
+              Passwords do not match
+            </mat-error>
+          </mat-form-field>
+
+          <div class="mt-4">
+            <button
+              mat-raised-button
+              color="primary"
+              type="submit"
+              [disabled]="!passwordForm.valid"
+              class="w-full"
+            >
+              Update Password
+            </button>
+          </div>
+        </form>
+      </div>
+    </mat-tab>
+  </mat-tab-group>
+</div>

@@ -1,0 +1,23 @@
+<div class="p-4 bg-gray-50 min-h-screen">
+  <h1 class="text-2xl font-bold mb-6 flex items-center gap-2">
+    <mat-icon>settings</mat-icon> Admin Settings
+  </h1>
+
+  <!-- Option 1: Mat Tabs -->
+  <mat-tab-group mat-stretch-tabs dynamicHeight>
+    <mat-tab label="Organization">
+        <app-organization-setting></app-organization-setting>
+    </mat-tab>
+
+    <mat-tab label="Leave Policy">
+        <app-leave-setting></app-leave-setting>
+    </mat-tab>
+
+    <mat-tab label="Attendance">
+     <app-attendance-setting></app-attendance-setting>
+    </mat-tab>
+
+    <mat-tab label="System Preferences">
+    </mat-tab>
+  </mat-tab-group>
+</div>
