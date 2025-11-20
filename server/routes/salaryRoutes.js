@@ -3,7 +3,7 @@
 //This defines the new endpoint and uses the security middleware.
 
 const express = require('express');
-const { addSalaryRecord,getSalaryHistory,updateSalaryRecord,deleteSalaryRecord,getSalaryById } = require('../controllers/salaryController');
+const { addSalaryRecord,getSalaryHistory,updateSalaryRecord,deleteSalaryRecord,getSalaryById,getEmployeeSalary } = require('../controllers/salaryController');
 const { protect } = require('../middleware/authMiddleware');
 const { authorizeRoles } = require('../middleware/roleMiddleware');
 
@@ -14,8 +14,15 @@ router.post('/', protect, authorizeRoles('admin', 'HR'), addSalaryRecord);
 
 router.get('/salary-history/:employeeId', protect, getSalaryHistory);
 
+router.get(
+    '/view-salary', 
+    protect, // Authentication required
+    getEmployeeSalary
+);
 // Get salary by ID
 router.get('/:id', protect, getSalaryById);  // 👈 new route
+
+// GET /api/salaries/me - Employee Dashboard Salary History
 
 // Update salary record
 router.put('/:salaryId', protect, authorizeRoles('admin', 'HR'), updateSalaryRecord);

@@ -5,6 +5,9 @@ import { UsersComponent } from './users.component';
 import { LeaveFormComponent } from './pages/leave-form/leave-form.component';
 import { ListComponent } from './pages/list/list.component';
 import { LeaveDetailsComponent } from './pages/leave-details/leave-details.component';
+import { EmpSalaryComponent } from './pages/emp-salary/emp-salary.component';
+import { EmployeeSettingsComponent } from './pages/emp-settings/employee-settings.component';
+import { EditProfileComponent } from './pages/emp-settings/edit-profile/edit-profile.component';
 
 const routes: Routes = [
   {
@@ -21,6 +24,14 @@ const routes: Routes = [
   },
   {
     path:'detail/:id',component:LeaveDetailsComponent
+  },{
+    path:'salary',component:EmpSalaryComponent
+  },
+  {
+    path:'settings',component:EmployeeSettingsComponent
+  },
+  {
+    path:"edit-profil",component:EditProfileComponent
   }
 ];
 
