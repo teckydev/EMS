@@ -8,6 +8,7 @@ const salaryRoutes = require('./routes/salaryRoutes'); // Import new salary rout
 const leaveRoutes = require('./routes/leaveRoutes');
 const settingRoutes = require('./routes/organizationRoutes');
 const configSetting = require("./routes/configSettingRoutes")
+const statistic = require('./routes/dashboardRoutes')
 require('dotenv').config();
 dotenv.config();
 connectDB();
@@ -55,6 +56,9 @@ app.use('/api/leaves', leaveRoutes);
 app.use('/api/settings', settingRoutes);
 //admin-leave-setting
 app.use("/api/settings", configSetting);
+
+app.use('/api/dashboard', statistic);
+
 
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {
