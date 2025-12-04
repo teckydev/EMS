@@ -31,7 +31,6 @@ settings: any = {
   constructor(
     private settingsService: SettingsService,
     private snackBar: MatSnackBar,
-    private http: HttpClient
   ) {}
 
   ngOnInit(): void {
