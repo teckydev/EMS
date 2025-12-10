@@ -10,6 +10,7 @@ const settingRoutes = require('./routes/organizationRoutes');
 const configSetting = require("./routes/configSettingRoutes")
 const statistic = require('./routes/dashboardRoutes')
 const attendance = require("./routes/attendanceRoutes")
+const task = require("./routes/taskRoutes");
 require('dotenv').config();
 dotenv.config();
 connectDB();
@@ -61,6 +62,8 @@ app.use("/api/settings", configSetting);
 app.use('/api/dashboard', statistic);
 
 app.use("/api/attendance", attendance);
+
+app.use("/api/tasks", task);
 
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {

@@ -29,7 +29,7 @@ const addSalaryRecord = async (req, res) => {
       deductions,
       netPay,
       payDate: payDate || Date.now(),
-      createdBy: req.user?.id || null, // handle if no auth
+      createdBy: req.user?.userId || null, // handle if no auth
     });
 
     res.status(201).json({ message: 'Salary record added successfully', record });
