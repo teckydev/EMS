@@ -15,6 +15,7 @@ import { LeaveSettingComponent } from './pages/settings/leave-setting/leave-sett
 import { AttendanceSettingComponent } from './pages/settings/attendance-setting/attendance-setting.component';
 import { AdminAttendanceComponent } from './pages/admin-attendance/admin-attendance/admin-attendance.component';
 import { AttendanceDetailComponent } from './pages/admin-attendance/attendance-detail/attendance-detail.component';
+import { AdminTaskComponent } from './pages/admin-task/admin-task.component';
 
 const routes: Routes = [
   { path: 'dashboard', component: AdminDashboardComponent },
@@ -44,6 +45,13 @@ const routes: Routes = [
     children: [
       { path: '', component: AdminAttendanceComponent },
       { path: ':employeeId', component: AttendanceDetailComponent },
+    ],
+  },
+  
+  {
+    path: 'tasks',
+    children: [
+      { path: '', component: AdminTaskComponent },
     ],
   },
   // { path: '', redirectTo: 'dashboard', pathMatch: 'full' }

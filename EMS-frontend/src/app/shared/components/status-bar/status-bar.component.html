@@ -1,0 +1,32 @@
+<div class="bg-white shadow rounded-lg px-6 py-3 flex flex-wrap gap-6 items-center">
+
+  <!-- Check In -->
+  <div class="flex items-center gap-2">
+    <span
+      class="w-3 h-3 rounded-full"
+      [ngClass]="isCheckedIn ? 'bg-green-500' : 'bg-red-500'">
+    </span>
+    <span class="font-medium">
+      {{ isCheckedIn ? 'Checked In' : 'Checked Out' }}
+    </span>
+  </div>
+
+  <!-- Worked Time -->
+  <div class="flex items-center gap-2">
+    <mat-icon class="text-indigo-600">schedule</mat-icon>
+    <span class="font-medium">{{ workedTime }}</span>
+  </div>
+
+  <!-- Pending Tasks -->
+  <div class="flex items-center gap-2">
+    <mat-icon class="text-yellow-600">push_pin</mat-icon>
+    <span class="font-medium">{{ pendingTasks }} Pending</span>
+  </div>
+
+  <!-- Alerts -->
+  <div class="flex items-center gap-2">
+    <mat-icon class="text-red-600">notifications</mat-icon>
+    <span class="font-medium">{{ alerts }} Alerts</span>
+  </div>
+
+</div>

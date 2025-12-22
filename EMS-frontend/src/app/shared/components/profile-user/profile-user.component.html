@@ -1,0 +1,29 @@
+<mat-card
+  class="p-4 flex items-center gap-4 rounded-xl shadow hover:shadow-lg transition">
+
+  <!-- Avatar -->
+  <img
+    [src]="employee?.photo 
+      ? 'http://localhost:5000/' + employee.photo 
+      : 'assets/avatar.png'"
+    class="w-16 h-16 rounded-full object-cover border-2 border-indigo-500"
+  />
+
+  <!-- Info -->
+  <div class="flex-1">
+    <h3 class="text-lg font-semibold">
+      {{ employee?.firstName }} {{ employee?.lastName }}
+    </h3>
+    <p class="text-sm text-gray-600">
+      {{ employee?.position }} • {{ employee?.department?.name }}
+    </p>
+  </div>
+
+  <!-- CTA -->
+  <button
+    mat-stroked-button
+    color="primary"
+    routerLink="/user/profile">
+    View
+  </button>
+</mat-card>

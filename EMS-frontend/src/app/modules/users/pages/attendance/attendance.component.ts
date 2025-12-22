@@ -29,7 +29,6 @@ export class AttendanceComponent implements OnInit {
     this.dataSource.paginator = this.paginator;
   }
   checkIn() {
-     this.isCheckedIn = true;
     this.attendanceService.checkIn().subscribe({
       next: (res) => {
         this.snack.open('Checked In Successfully', 'Close', { duration: 2000 });
@@ -39,7 +38,6 @@ export class AttendanceComponent implements OnInit {
   }
 
   checkOut() {
-     this.isCheckedIn = false;
     this.attendanceService.checkOut().subscribe({
       next: (res) => {
         this.snack.open('Checked Out Successfully', 'Close', { duration: 2000 });
@@ -48,13 +46,23 @@ export class AttendanceComponent implements OnInit {
     });
   }
 
+  
   loadAttendance() {
-    this.attendanceService.getMyAttendance().subscribe({
-      next: (res) => {
-        this.attendanceData = res.records;
-        this.loading = false;}
-    });
-  }
+  this.loading = true;
+
+  this.attendanceService.getMyAttendance().subscribe({
+    next: (res) => {
+      this.attendanceData = res.records;
+      this.dataSource.data = res.records;   // ✅ IMPORTANT
+      this.isCheckedIn = res.isCheckedIn;
+      this.loading = false;
+    },
+    error: () => {
+      this.loading = false;
+    }
+  });
+}
+
   // ✅ Format date and time for UI
   // Convert hours (e.g., 0.0162) → "0 h 58 m"
   formatHours(hours: number): string {

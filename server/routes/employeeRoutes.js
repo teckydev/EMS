@@ -10,7 +10,8 @@ const {
   getActiveEmployeeCount,
   getNewHiresCount,
   getEmployeeProfileSelf,
-  updateEmployeeSelf
+  updateEmployeeSelf,
+  getEmployeeByUserId
   
 } = require("../controllers/employeeController");
 const { protect } = require("../middleware/authMiddleware");
@@ -42,7 +43,8 @@ router.get("/", protect, getEmployees);
 router.get("/:id", protect, getEmployeeById);
 router.get("/department/:id", protect, getEmployeesByDepartment);
 
-
+// ✅ GET /api/employees/by-user/:userId
+router.get('/by-user/:userId', getEmployeeByUserId);
 // Add a new employee (admin only)
 router.post(
   "/add",

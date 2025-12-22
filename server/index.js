@@ -1,6 +1,8 @@
 const express = require('express');
+const socketIO = require('socket.io');
 const dotenv = require('dotenv');
 const cors = require('cors');
+const http = require('http');
 const connectDB = require('./config/db');
 const path = require('path');
 const expressJSDocSwagger = require("express-jsdoc-swagger");
@@ -11,6 +13,7 @@ const configSetting = require("./routes/configSettingRoutes")
 const statistic = require('./routes/dashboardRoutes')
 const attendance = require("./routes/attendanceRoutes")
 const task = require("./routes/taskRoutes");
+const notification = require('./routes/notificationRoutes')
 require('dotenv').config();
 dotenv.config();
 connectDB();
@@ -39,6 +42,36 @@ const options = {
   exposeSwaggerUI: true,
   exposeApiDocs: true,
 };
+
+// 1️⃣ Create HTTP server
+const server = http.createServer(app);
+
+// 2️⃣ Attach socket.io to server
+const io = socketIO(server, {
+  cors: {
+    origin: 'http://localhost:4200',// in real app, specify Angular URL
+    methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH']
+  }
+});
+
+// 3️⃣ Make io globally available (simple way)
+global.io = io;
+
+// 4️⃣ Handle socket connections
+io.on('connection', (socket) => {
+  console.log('🔌 Client connected:', socket.id);
+
+  // Client will tell us which employeeId they are
+  socket.on('register', (employeeId) => {
+    console.log(`Employee ${employeeId} joined`);
+    socket.join(employeeId); // join room with employeeId
+  });
+
+  socket.on('disconnect', () => {
+    console.log('❌ Client disconnected:', socket.id);
+  });
+});
+
 expressJSDocSwagger(app)(options);
 app.use(cors(corsOptions));
 app.use(express.json());
@@ -65,8 +98,10 @@ app.use("/api/attendance", attendance);
 
 app.use("/api/tasks", task);
 
+app.use('/api/notifications', notification);
+
 const PORT = process.env.PORT || 5000;
-app.listen(PORT, () => {
+server.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
   console.log(`Swagger docs available at http://localhost:${PORT}/api-docs`);
 });

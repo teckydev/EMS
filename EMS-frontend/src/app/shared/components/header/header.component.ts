@@ -1,6 +1,7 @@
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { Router } from '@angular/router';
 import { AuthService } from 'src/app/core/service/auth.service';
+import { NotificationService } from 'src/app/core/service/notification.service';
 
 @Component({
   selector: 'app-header',
@@ -8,6 +9,7 @@ import { AuthService } from 'src/app/core/service/auth.service';
   styleUrls: ['./header.component.scss']
 })
 export class HeaderComponent implements OnInit {
+   notifications: any[] = [];
  @Output() toggleSidenavEvent = new EventEmitter<void>();
 
 toggleSidenav() {
@@ -21,7 +23,7 @@ toggleUserMenu() {
 
 
 
-  constructor(private router:Router,private authservice:AuthService) { }
+  constructor(private router:Router,private authservice:AuthService,private notifService: NotificationService) { }
 logout() {
   // Call your AuthService logout method
   console.log("Logging out...");
@@ -30,6 +32,7 @@ logout() {
   this.router.navigate(['/login']);
 }
   ngOnInit(): void {
+     this.notifService.notifications$.subscribe((n) => (this.notifications = n));
   }
 navigateToProfile(){
 

@@ -1,0 +1,114 @@
+<div class="p-6">
+  <!-- Header -->
+  <div class="flex justify-between items-center mb-4">
+    <h2 class="text-2xl font-semibold">Task Management</h2>
+    <button mat-raised-button color="primary" (click)="openAddTask()">
+      + Add Task
+    </button>
+  </div>
+
+  <!-- Filter Dropdown -->
+  <mat-form-field appearance="outline" class="w-64 mb-4">
+    <mat-label>Filter by Status</mat-label>
+    <mat-select [(ngModel)]="selectedStatus">
+      <mat-option value="">All</mat-option>
+      <mat-option value="High">High</mat-option>
+      <mat-option value="Low">Low</mat-option>
+      <mat-option value="Medium">Medium</mat-option>
+    </mat-select>
+  </mat-form-field>
+
+  <!-- Task Table -->
+  <table mat-table [dataSource]="filteredTasks" class="w-full mat-elevation-z8">
+
+    <!-- Title Column -->
+    <ng-container matColumnDef="title">
+      <th mat-header-cell *matHeaderCellDef> Title </th>
+      <td mat-cell *matCellDef="let task">
+        <button class="text-blue-600 underline">
+          {{ task.title }}
+        </button>
+      </td>
+    </ng-container>
+
+    <!-- Department Column -->
+    <ng-container matColumnDef="department">
+      <th mat-header-cell *matHeaderCellDef> Department </th>
+      <td mat-cell *matCellDef="let task">
+        {{ task.department?.name || task.department }}
+      </td>
+    </ng-container>
+
+    <!-- Assigned To Column -->
+    <ng-container matColumnDef="assignedTo">
+      <th mat-header-cell *matHeaderCellDef> Assigned To </th>
+      <td mat-cell *matCellDef="let task">
+        {{ task.assignedTo?.firstName }} {{ task.assignedTo?.lastName }}
+      </td>
+    </ng-container>
+
+    <!-- Due Date Column -->
+    <ng-container matColumnDef="dueDate">
+      <th mat-header-cell *matHeaderCellDef> Due Date </th>
+      <td mat-cell *matCellDef="let task">
+        {{ task.dueDate | date: 'shortDate' }}
+      </td>
+    </ng-container>
+
+    <!-- Priority Column -->
+    <ng-container matColumnDef="priority">
+      <th mat-header-cell *matHeaderCellDef> Priority </th>
+      <td mat-cell *matCellDef="let task">
+        <span
+          [ngClass]="{
+            'text-green-600 font-semibold': task.priority === 'Low',
+            'text-yellow-600 font-semibold': task.priority === 'Medium',
+            'text-red-600 font-semibold': task.priority === 'High'
+          }"
+        >
+          {{ task.priority }}
+        </span>
+      </td>
+    </ng-container>
+
+    <!-- Status Column -->
+    <ng-container matColumnDef="status">
+      <th mat-header-cell *matHeaderCellDef> Status </th>
+      <td mat-cell *matCellDef="let task">
+        <span
+          [ngClass]="{
+            'text-green-600 font-semibold': task.status === 'Completed',
+            'text-yellow-600 font-semibold': task.status === 'In Progress',
+            'text-red-600 font-semibold': task.status === 'Pending'
+          }"
+        >
+          {{ task.status }}
+        </span>
+      </td>
+    </ng-container>
+<ng-container matColumnDef="actions">
+  <th mat-header-cell *matHeaderCellDef> Actions </th>
+  <td mat-cell *matCellDef="let task" >
+    <button mat-icon-button color="primary" (click)="openEditTask(task)">
+      <mat-icon>edit</mat-icon>
+    </button>
+    <button class="text-blue-600 underline" (click)="openTaskDetail(task)">
+   <mat-icon>info</mat-icon>
+</button>
+ <button mat-icon-button color="warn" (click)="confirmDelete(task)">
+      <mat-icon>delete</mat-icon>
+    </button>
+  </td>
+</ng-container>
+
+    <!-- Header and Row Definitions -->
+    <tr
+      mat-header-row
+      *matHeaderRowDef="['title', 'department', 'assignedTo', 'dueDate', 'priority', 'status', 'actions']"
+    ></tr>
+    <tr
+      mat-row
+      *matRowDef="let row; columns: ['title', 'department', 'assignedTo', 'dueDate', 'priority', 'status', 'actions']"
+    ></tr>
+  </table>
+</div>

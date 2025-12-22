@@ -1,0 +1,177 @@
+<!-- Loader -->
+<div *ngIf="loading" class="flex justify-center items-center min-h-[50vh]">
+  <mat-spinner diameter="56"></mat-spinner>
+</div>
+
+<!-- DASHBOARD CONTENT -->
+<div *ngIf="!loading"
+     class="max-w-7xl mx-auto px-3 sm:px-6 lg:px-8 py-[55px] space-y-10">
+
+  <!-- 👋 Greeting + Status -->
+  <div class="space-y-5">
+    <h2 class="text-lg sm:text-xl lg:text-2xl font-semibold">
+      Welcome back 👋
+    </h2>
+
+    <app-status-bar
+      class="block"
+      [isCheckedIn]="isCheckedIn"
+      [workedTime]="workedTime"
+      [pendingTasks]="pendingTaskCount"
+      [alerts]="alertCount">
+    </app-status-bar>
+  </div>
+
+  <!-- Profile Card -->
+  <div class="w-full">
+    <app-profile-user></app-profile-user>
+  </div>
+
+  <!-- KPI Cards -->
+  <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6">
+
+    <!-- KPI CARD TEMPLATE -->
+    <mat-card class="shadow transition hover:shadow-lg h-full">
+      <mat-card-content
+        class="h-full flex flex-col justify-between p-4">
+
+        <div
+          class="flex items-center justify-between gap-3">
+
+          <div>
+            <p class="text-xs sm:text-sm text-gray-500">
+              My Tasks
+            </p>
+            <p class="text-2xl sm:text-3xl font-bold text-indigo-600 mt-1">
+              {{ tasks.length }}
+            </p>
+          </div>
+
+          <div
+            class="bg-indigo-100 text-indigo-600 p-2 sm:p-3 rounded-full">
+            <mat-icon class="text-xl sm:text-2xl">
+              assignment
+            </mat-icon>
+          </div>
+        </div>
+
+        <div class="text-right mt-4">
+          <button
+            mat-button
+            color="primary"
+            routerLink="/user/tasks">
+            View
+          </button>
+        </div>
+
+      </mat-card-content>
+    </mat-card>
+
+    <!-- Leaves -->
+    <mat-card class="shadow transition hover:shadow-lg h-full">
+      <mat-card-content class="h-full flex flex-col justify-between p-4">
+
+        <div class="flex items-center justify-between gap-3">
+          <div>
+            <p class="text-xs sm:text-sm text-gray-500">
+              My Leaves
+            </p>
+            <p class="text-2xl sm:text-3xl font-bold text-green-600 mt-1">
+              {{ leaves.length }}
+            </p>
+          </div>
+
+          <div class="bg-green-100 text-green-600 p-2 sm:p-3 rounded-full">
+            <mat-icon class="text-xl sm:text-2xl">
+              beach_access
+            </mat-icon>
+          </div>
+        </div>
+
+        <div class="text-right mt-4">
+          <button mat-button color="primary" routerLink="/user/list">
+            View
+          </button>
+        </div>
+
+      </mat-card-content>
+    </mat-card>
+
+    <!-- Attendance -->
+    <mat-card class="shadow transition hover:shadow-lg h-full">
+      <mat-card-content class="h-full flex flex-col justify-between p-4">
+
+        <div class="flex items-center justify-between gap-3">
+          <div>
+            <p class="text-xs sm:text-sm text-gray-500">
+              Attendance
+            </p>
+            <p class="text-2xl sm:text-3xl font-bold text-orange-600 mt-1">
+              {{ attendance.length }}
+            </p>
+          </div>
+
+          <div class="bg-orange-100 text-orange-600 p-2 sm:p-3 rounded-full">
+            <mat-icon class="text-xl sm:text-2xl">
+              schedule
+            </mat-icon>
+          </div>
+        </div>
+
+        <div class="text-right mt-4">
+          <button mat-button color="primary" routerLink="/user/attendance">
+            View
+          </button>
+        </div>
+
+      </mat-card-content>
+    </mat-card>
+
+  </div>
+
+  <!-- Recent Tasks -->
+  <mat-card class="shadow">
+    <mat-card-title class="text-base sm:text-lg lg:text-xl pb-4">
+      Recent Tasks
+    </mat-card-title>
+
+    <!-- Mobile Friendly Wrapper -->
+    <div class="overflow-x-auto -mx-3 sm:mx-0">
+      <table
+        mat-table
+        [dataSource]="tasks.slice(0,5)"
+        class="min-w-[480px] w-full">
+
+        <ng-container matColumnDef="title">
+          <th mat-header-cell *matHeaderCellDef>Task</th>
+          <td mat-cell *matCellDef="let t">{{ t.title }}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="status">
+          <th mat-header-cell *matHeaderCellDef>Status</th>
+          <td mat-cell *matCellDef="let t">
+            <span
+              class="px-2 py-1 rounded text-xs font-semibold"
+              [ngClass]="{
+                'bg-green-100 text-green-700': t.status === 'Completed',
+                'bg-yellow-100 text-yellow-700': t.status === 'In Progress',
+                'bg-red-100 text-red-700': t.status === 'Pending'
+              }">
+              {{ t.status }}
+            </span>
+          </td>
+        </ng-container>
+
+        <tr mat-header-row *matHeaderRowDef="['title','status']"></tr>
+        <tr mat-row *matRowDef="let row; columns: ['title','status']"></tr>
+      </table>
+    </div>
+
+    <!-- Empty State -->
+    <div *ngIf="tasks.length === 0"
+         class="text-center py-8 text-gray-400 text-sm">
+      🎉 No recent tasks
+    </div>
+  </mat-card>
+
+</div>

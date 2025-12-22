@@ -9,10 +9,12 @@ import { EmpSalaryComponent } from './pages/emp-salary/emp-salary.component';
 import { EmployeeSettingsComponent } from './pages/emp-settings/employee-settings.component';
 import { EditProfileComponent } from './pages/emp-settings/edit-profile/edit-profile.component';
 import { AttendanceComponent } from './pages/attendance/attendance.component';
+import { EmployeeTaskComponent } from './pages/employee-task/employee-task.component';
+import { EmpDashboardComponent } from './pages/emp-dashboard/emp-dashboard.component';
 
 const routes: Routes = [
   {
-    path:'',component:UsersComponent
+    path:'me',component:UsersComponent
   },
   {
     path:'profile',component:ProfileSummaryComponent
@@ -36,6 +38,18 @@ const routes: Routes = [
   },
   {
     path: 'attendance',component: AttendanceComponent
+  },
+  {
+    path:"tasks",
+    children:[
+      {path:'',component:EmployeeTaskComponent}
+    ]
+  },
+  {
+    path:"",
+    component:EmpDashboardComponent
+   
+
   }
 ];
 

@@ -1,6 +1,20 @@
 const Attendance = require("../models/Attendance");
 const Settings = require("../models/AttendanceSetting"); // later part
 const Employee = require("../models/Employee");
+
+// ✅ Helper: derive current check-in status
+const deriveCheckInStatus = (records) => {
+  if (!records || records.length === 0) return false;
+
+  const latestDay = records[0]; // sorted DESC by date
+  if (!latestDay.sessions || latestDay.sessions.length === 0) return false;
+
+  const lastSession =
+    latestDay.sessions[latestDay.sessions.length - 1];
+
+  return !!(lastSession.checkIn && !lastSession.checkOut);
+};
+
 // Helper: Get employee ID from logged in user
 
 const getEmployeeId = async (userId) => {
@@ -255,49 +269,37 @@ const getAttendanceByEmployee = async (req, res) => {
  */
 const getMeAttendance = async (req, res) => {
   try {
-    const userId = req.user.userId; // Extracted from JWT by authMiddleware
-    console.log("👤 Logged-in user:", userId);
-
-    // Get employeeId linked to this user
+    const userId = req.user.userId;
     const employeeId = await getEmployeeId(userId);
 
-    // Fetch all attendance records for this employee
     const attendanceRecords = await Attendance.find({ employee: employeeId })
       .sort({ date: -1 })
       .select("-__v");
 
-    // If no attendance found
-    if (!attendanceRecords || attendanceRecords.length === 0) {
-      return res.status(200).json({
-        message: "No attendance records found.",
-        count: 0,
-        records: []
-      });
-    }
+    const isCheckedIn = deriveCheckInStatus(attendanceRecords);
 
-    // Format for readability
     const formatted = attendanceRecords.map((rec) => ({
       date: rec.date,
       totalHours: rec.totalHours || 0,
       status: rec.status || "N/A",
       sessions: rec.sessions || [],
-      createdAt: rec.createdAt,
-      updatedAt: rec.updatedAt,
     }));
 
     res.status(200).json({
-      message: "Attendance records fetched successfully.",
+      message: "Attendance records fetched successfully",
+      isCheckedIn,               // ✅ KEY ADDITION
       count: formatted.length,
       records: formatted,
     });
+
   } catch (error) {
-    console.error("❌ getMyAttendance Error:", error.message);
     res.status(500).json({
-      message: "Server error fetching your attendance records.",
+      message: "Server error fetching attendance",
       error: error.message,
     });
   }
 };
+
 module.exports = {
     checkIn,
     checkOut,
