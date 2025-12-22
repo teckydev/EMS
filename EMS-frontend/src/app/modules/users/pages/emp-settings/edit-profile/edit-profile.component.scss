@@ -1,0 +1,23 @@
+/*
+  This makes the mat-form-field fill the width of its
+  container, which is standard for most forms and works
+  perfectly with our Tailwind grid.
+*/
+:host ::ng-deep mat-form-field {
+  width: 100%;
+}
+
+/* Give the tab content a consistent padding.
+  We are already doing this with Tailwind (p-6), 
+  but this is another way to ensure it.
+*/
+:host ::ng-deep .mat-tab-body-content {
+  /* Using Tailwind's 'p-6' is preferred, but this is a CSS alternative */
+  /* padding: 24px; */
+}
+
+/* Make the tab group full width
+*/
+:host ::ng-deep mat-tab-group {
+  width: 100%;
+}

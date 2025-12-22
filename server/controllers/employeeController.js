@@ -286,6 +286,38 @@ const getEmployeeProfileSelf = async (req, res) => {
     res.status(500).json({ success: false, message: "Server error while fetching employee" });
   }
 };
+//update profile for employee,can update profile
+ const updateEmployeeSelf = async (req, res) => {
+  try {
+    const userId = req.user.id; // comes from token decoded in authMiddleware
+
+    // Find the employee associated with this user
+    const employee = await Employee.findOne({ user: userId });
+    if (!employee) {
+      return res.status(404).json({ message: "Employee not found" });
+    }
+
+    // Extract updated fields
+    const { phone, address } = req.body;
+    if (phone) employee.phone = phone;
+    if (address) employee.address = address;
+
+    // Handle profile picture upload (optional)
+    if (req.file) {
+      employee.photo = req.file.path; // saved photo path
+    }
+
+    await employee.save();
+
+    res.status(200).json({
+      message: "Profile updated successfully",
+      employee,
+    });
+  } catch (error) {
+    console.error("Error updating profile:", error);
+    res.status(500).json({ message: "Server error", error: error.message });
+  }
+};
 
 
 
@@ -455,5 +487,6 @@ module.exports = {
   getEmployeeCount,
   getActiveEmployeeCount,
   getNewHiresCount,
-  getEmployeeProfileSelf
+  getEmployeeProfileSelf,
+  updateEmployeeSelf
 };

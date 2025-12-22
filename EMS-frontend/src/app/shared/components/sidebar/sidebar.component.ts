@@ -30,9 +30,9 @@ setMenu() {
 
       { label: 'Leave', icon: 'event_note', route: '/user/list' },
       { label: 'Salary', icon: 'attach_money', route: '/user/salary' },
-      { label: 'Setting', icon: 'settings', route: '/user/setting' },
+      { label: 'Setting', icon: 'settings', route: '/user/settings' },
         { label: 'Tasks', icon: 'check_circle', route: '/user/tasks' },
-        { label: 'Attendance', icon: 'calendar_today', route: '/user/attendance' },
+        { label: 'Attendance', icon: 'calendar_today', route: '/user/edit-profile' },
       ];
     }
   }
