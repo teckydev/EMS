@@ -6,7 +6,8 @@ const path = require('path');
 const expressJSDocSwagger = require("express-jsdoc-swagger");
 const salaryRoutes = require('./routes/salaryRoutes'); // Import new salary routes
 const leaveRoutes = require('./routes/leaveRoutes');
-
+const settingRoutes = require('./routes/organizationRoutes');
+const configSetting = require("./routes/configSettingRoutes")
 require('dotenv').config();
 dotenv.config();
 connectDB();
@@ -50,6 +51,10 @@ app.use('/api/salaries', salaryRoutes);
 app.use('/uploads', express.static('public/uploads'));
 //leave
 app.use('/api/leaves', leaveRoutes);
+//admin-setting
+app.use('/api/settings', settingRoutes);
+//admin-leave-setting
+app.use("/api/settings", configSetting);
 
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {
