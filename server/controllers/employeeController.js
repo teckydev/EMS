@@ -274,7 +274,7 @@ const getEmployeeById = async (req, res) => {
 };
 const getEmployeeProfileSelf = async (req, res) => {
   try {
-    const userId = req.user.id;
+      const userId = req.user.userId;
     const employee = await Employee.findOne({ user: userId })
       .populate("user", "-password")
       .populate("department");

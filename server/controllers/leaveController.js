@@ -3,7 +3,7 @@ const Employee = require('../models/Employee'); // Needed to find the employeeId
 
 // Helper to find the employee ID from the authenticated user ID
 const getEmployeeId = async (userId) => {
-    const employee = await Employee.findOne({ userId }).select('_id');
+    const employee = await Employee.findOne({ user: userId }).select('_id');
     if (!employee) {
         throw new Error("Employee profile not linked to this user.");
     }
@@ -96,29 +96,78 @@ const viewOwnLeaves = async (req, res) => {
 //     }
 // };
 
+// const getSpecificLeave = async (req, res) => {
+//   try {
+//     const employeeId = await getEmployeeId(req.user.userId);
+//     const leaveId = req.params.id;
+
+//     // Find the leave by ID and ensure it belongs to the logged-in employee
+//     const leave = await Leave.findOne({ _id: leaveId, employee: employeeId })
+//       .populate({
+//         path: 'employee',
+//         select: 'firstName lastName empId department position',
+//         populate: { path: 'department', select: 'name' } // ✅ populate department name
+//       })
+//       .select('-__v');
+
+//     if (!leave) {
+//       return res.status(404).json({ message: 'Leave request not found or unauthorized.' });
+//     }
+
+//     // Prepare clean, readable response
+//     const response = {
+//       empId: leave.employee?.empId,
+//       employeeName: `${leave.employee?.firstName} ${leave.employee?.lastName}`,
+//       department: leave.employee?.department?.name || 'N/A', // ✅ fixed department
+//       leaveType: leave.leaveType,
+//       position: leave.employee?.position,
+//       startDate: leave.startDate,
+//       endDate: leave.endDate,
+//       reason: leave.reason,
+//       status: leave.status,
+//       appliedAt: leave.appliedAt,
+//       updatedAt: leave.updatedAt,
+//       numberOfDays: leave.numberOfDays,
+//       _id: leave._id
+//     };
+
+//     res.status(200).json(response);
+
+//   } catch (error) {
+//     if (error.name === 'CastError') {
+//       return res.status(400).json({ message: 'Invalid Leave ID format.' });
+//     }
+//     console.error("Error fetching leave detail:", error);
+//     res.status(500).json({ message: 'Server error fetching leave detail.', error: error.message });
+//   }
+// };
+
 const getSpecificLeave = async (req, res) => {
   try {
-    const employeeId = await getEmployeeId(req.user.userId);
+    // Optional: Only allow Admins/HR
+    if (!['admin', 'hr'].includes(req.user.role)) {
+      return res.status(403).json({ message: 'Access denied: Admins only.' });
+    }
+
     const leaveId = req.params.id;
 
-    // Find the leave by ID and ensure it belongs to the logged-in employee
-    const leave = await Leave.findOne({ _id: leaveId, employee: employeeId })
+    // Find leave by ID without employee restriction
+    const leave = await Leave.findById(leaveId)
       .populate({
         path: 'employee',
         select: 'firstName lastName empId department position',
-        populate: { path: 'department', select: 'name' } // ✅ populate department name
+        populate: { path: 'department', select: 'name' },
       })
       .select('-__v');
 
     if (!leave) {
-      return res.status(404).json({ message: 'Leave request not found or unauthorized.' });
+      return res.status(404).json({ message: 'Leave not found.' });
     }
 
-    // Prepare clean, readable response
     const response = {
       empId: leave.employee?.empId,
       employeeName: `${leave.employee?.firstName} ${leave.employee?.lastName}`,
-      department: leave.employee?.department?.name || 'N/A', // ✅ fixed department
+      department: leave.employee?.department?.name || 'N/A',
       leaveType: leave.leaveType,
       position: leave.employee?.position,
       startDate: leave.startDate,
@@ -128,20 +177,21 @@ const getSpecificLeave = async (req, res) => {
       appliedAt: leave.appliedAt,
       updatedAt: leave.updatedAt,
       numberOfDays: leave.numberOfDays,
-      _id: leave._id
+      _id: leave._id,
     };
 
     res.status(200).json(response);
-
   } catch (error) {
+    console.error('Error fetching leave for admin:', error);
     if (error.name === 'CastError') {
       return res.status(400).json({ message: 'Invalid Leave ID format.' });
     }
-    console.error("Error fetching leave detail:", error);
-    res.status(500).json({ message: 'Server error fetching leave detail.', error: error.message });
+    res.status(500).json({
+      message: 'Server error fetching leave detail.',
+      error: error.message,
+    });
   }
 };
-
 
 /**
  * @desc    Employee cancels a pending leave request
@@ -183,7 +233,9 @@ const cancelLeave = async (req, res) => {
 const updateLeaveStatus = async (req, res) => {
     try {
         const leaveId = req.params.id;
+        console.log("Leave ID to update:", leaveId);
         const adminId = req.user.userId; // Admin/HR performing the action
+        console.log("Admin/HR User ID:", adminId);
         const { status, comments } = req.body || {}; // ✅ comment is optional
 
         // 1️⃣ Validate status input

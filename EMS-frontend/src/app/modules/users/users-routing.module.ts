@@ -8,6 +8,7 @@ import { LeaveDetailsComponent } from './pages/leave-details/leave-details.compo
 import { EmpSalaryComponent } from './pages/emp-salary/emp-salary.component';
 import { EmployeeSettingsComponent } from './pages/emp-settings/employee-settings.component';
 import { EditProfileComponent } from './pages/emp-settings/edit-profile/edit-profile.component';
+import { AttendanceComponent } from './pages/attendance/attendance.component';
 
 const routes: Routes = [
   {
@@ -32,6 +33,9 @@ const routes: Routes = [
   },
   {
     path:"edit-profil",component:EditProfileComponent
+  },
+  {
+    path: 'attendance',component: AttendanceComponent
   }
 ];
 

@@ -13,6 +13,8 @@ import { SettingsComponent } from './pages/settings/settings.component';
 import { OrganizationSettingComponent } from './pages/settings/organization-setting/organization-setting.component';
 import { LeaveSettingComponent } from './pages/settings/leave-setting/leave-setting.component';
 import { AttendanceSettingComponent } from './pages/settings/attendance-setting/attendance-setting.component';
+import { AdminAttendanceComponent } from './pages/admin-attendance/admin-attendance/admin-attendance.component';
+import { AttendanceDetailComponent } from './pages/admin-attendance/attendance-detail/attendance-detail.component';
 
 const routes: Routes = [
   { path: 'dashboard', component: AdminDashboardComponent },
@@ -37,7 +39,13 @@ const routes: Routes = [
       { path: 'leave-policy', component: LeaveSettingComponent },
       { path: 'attendance', component: AttendanceSettingComponent },
     ]
-  }
+  },{
+    path: 'attendance',
+    children: [
+      { path: '', component: AdminAttendanceComponent },
+      { path: ':employeeId', component: AttendanceDetailComponent },
+    ],
+  },
   // { path: '', redirectTo: 'dashboard', pathMatch: 'full' }
 ];
 

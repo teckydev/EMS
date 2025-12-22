@@ -1,0 +1,59 @@
+<div class="p-6">
+  <h2 class="text-2xl font-semibold mb-4">Attendance Management</h2>
+
+  <!-- 🔹 Filters -->
+  <div class="grid grid-cols-1 md:grid-cols-4 gap-4 mb-4">
+
+    <!-- Department Filter -->
+    <mat-form-field appearance="outline" class="w-full">
+      <mat-label>Department</mat-label>
+      <mat-select [(ngModel)]="selectedDepartment" (selectionChange)="applyFilters()">
+        <mat-option value="">All Departments</mat-option>
+        <mat-option *ngFor="let dept of departments" [value]="dept">{{ dept }}</mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <!-- Status Filter -->
+    <mat-form-field appearance="outline" class="w-full">
+      <mat-label>Status</mat-label>
+      <mat-select [(ngModel)]="selectedStatus" (selectionChange)="applyFilters()">
+        <mat-option value="">All</mat-option>
+        <mat-option value="Present">Present</mat-option>
+        <mat-option value="Absent">Absent</mat-option>
+        <mat-option value="Late">Late</mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <!-- From Date -->
+    <mat-form-field appearance="outline" class="w-full">
+      <mat-label>From</mat-label>
+      <input matInput [matDatepicker]="fromPicker" [(ngModel)]="fromDate" (dateChange)="applyFilters()" />
+      <mat-datepicker-toggle matSuffix [for]="fromPicker"></mat-datepicker-toggle>
+      <mat-datepicker #fromPicker></mat-datepicker>
+    </mat-form-field>
+
+    <!-- To Date -->
+    <mat-form-field appearance="outline" class="w-full">
+      <mat-label>To</mat-label>
+      <input matInput [matDatepicker]="toPicker" [(ngModel)]="toDate" (dateChange)="applyFilters()" />
+      <mat-datepicker-toggle matSuffix [for]="toPicker"></mat-datepicker-toggle>
+      <mat-datepicker #toPicker></mat-datepicker>
+    </mat-form-field>
+  </div>
+
+  <!-- 🔹 Actions -->
+  <div class="flex justify-between items-center mb-4">
+    <div>
+      <button mat-raised-button color="primary" (click)="exportCSV()">Export CSV</button>
+      <button mat-raised-button color="accent" (click)="exportPDF()" class="ml-2">Export PDF</button>
+    </div>
+    <mat-spinner *ngIf="loading" diameter="30"></mat-spinner>
+  </div>
+
+  <!-- 🔹 Attendance Table -->
+  <app-attendance-table
+    [attendanceData]="filteredData"
+    (viewDetail)="openDetailModal($event)"
+    (markUp)="openMarkUpModal($event)">
+  </app-attendance-table>
+</div>

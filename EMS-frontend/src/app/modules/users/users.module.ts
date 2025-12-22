@@ -16,6 +16,7 @@ import { EmpSalaryComponent } from './pages/emp-salary/emp-salary.component';
 import { ChangePasswordComponent } from './pages/emp-settings/change-password/change-password.component';
 import { EditProfileComponent } from './pages/emp-settings/edit-profile/edit-profile.component';
 import { EmployeeSettingsComponent } from './pages/emp-settings/employee-settings.component';
+import { AttendanceComponent } from './pages/attendance/attendance.component';
 
 
 @NgModule({
@@ -29,7 +30,8 @@ import { EmployeeSettingsComponent } from './pages/emp-settings/employee-setting
     EmpSalaryComponent,
     ChangePasswordComponent,
     EditProfileComponent,
-    EmployeeSettingsComponent
+    EmployeeSettingsComponent,
+    AttendanceComponent
   ],
   imports: [
     CommonModule,

@@ -1,0 +1,27 @@
+.attendance-table-container {
+  background: #fff;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+
+table {
+  width: 100%;
+}
+
+th {
+  background: #f9fafb;
+  font-weight: 600;
+}
+
+td, th {
+  padding: 12px 16px;
+}
+
+.mat-icon-button {
+  transition: background-color 0.2s ease;
+}
+
+.mat-icon-button:hover {
+  background-color: rgba(0,0,0,0.04);
+}

@@ -1,0 +1,38 @@
+<h2 mat-dialog-title class="text-xl font-semibold text-indigo-700">
+  Mark Employee Absent
+</h2>
+
+<mat-dialog-content class="mt-4">
+  <div class="flex flex-col gap-4">
+    <p>
+      <strong>Employee:</strong> {{ data.name }} ({{ data.empId }})
+    </p>
+
+    <mat-form-field appearance="outline" class="w-full">
+      <mat-label>Select Date</mat-label>
+      <input matInput [matDatepicker]="picker" [(ngModel)]="selectedDate" />
+      <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+      <mat-datepicker #picker></mat-datepicker>
+    </mat-form-field>
+
+    <div *ngIf="loading" class="text-center mt-2">
+      <mat-spinner diameter="30"></mat-spinner>
+    </div>
+
+    <p *ngIf="message" class="text-green-600 font-medium">
+      {{ message }}
+    </p>
+  </div>
+</mat-dialog-content>
+
+<mat-dialog-actions align="end">
+  <button mat-button (click)="close()">Cancel</button>
+  <button
+    mat-raised-button
+    color="warn"
+    (click)="markAbsent()"
+    [disabled]="!selectedDate || loading"
+  >
+    Mark Absent
+  </button>
+</mat-dialog-actions>

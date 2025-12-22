@@ -24,6 +24,7 @@ setMenu() {
         { label: 'Salary', icon: 'attach_money', route: '/admin/salary' },
           { label: 'Leave', icon: 'event_note', route: '/admin/leave' },
            { label: 'Setting', icon: 'settings', route: '/admin/settings' },
+           { label: 'Attendance', icon: 'calendar_today', route: '/admin/attendance' },
       ];
     } else if (this.role === 'employee') {
       this.menuItems = [
@@ -34,7 +35,7 @@ setMenu() {
       { label: 'Salary', icon: 'attach_money', route: '/user/salary' },
       { label: 'Setting', icon: 'settings', route: '/user/settings' },
         { label: 'Tasks', icon: 'check_circle', route: '/user/tasks' },
-        { label: 'Attendance', icon: 'calendar_today', route: '/user/edit-profile' },
+        { label: 'Attendance', icon: 'calendar_today', route: '/user/attendance' },
       ];
     }
   }

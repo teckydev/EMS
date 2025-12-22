@@ -1,0 +1,27 @@
+.button-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 40px;
+  gap: 16px;
+}
+
+/* Optional: subtle animations for smooth color transitions */
+button {
+  transition: all 0.3s ease;
+}
+
+button.mat-raised-button[color='warn'] {
+  background-color: #e53935 !important; /* red */
+  color: #fff !important;
+}
+
+button.mat-raised-button[color='primary'] {
+  background-color: #1976d2 !important; /* blue */
+  color: #fff !important;
+}
+
+button.mat-raised-button[color='accent'] {
+  background-color: #43a047 !important; /* green */
+  color: #fff !important;
+}

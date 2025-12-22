@@ -24,6 +24,10 @@ import { OrganizationSettingComponent } from './pages/settings/organization-sett
 import { LeaveSettingComponent } from './pages/settings/leave-setting/leave-setting.component';
 import { SystemSettingComponent } from './pages/settings/system-setting/system-setting.component';
 import { AttendanceSettingComponent } from './pages/settings/attendance-setting/attendance-setting.component';
+import { AdminAttendanceComponent } from './pages/admin-attendance/admin-attendance/admin-attendance.component';
+import { AttendanceTableComponent } from './pages/admin-attendance/attendance-table/attendance-table.component';
+import { AttendanceDetailComponent } from './pages/admin-attendance/attendance-detail/attendance-detail.component';
+import { MarkupModalComponent } from './pages/admin-attendance/markup-modal/markup-modal.component';
 
 
 @NgModule({
@@ -45,7 +49,11 @@ import { AttendanceSettingComponent } from './pages/settings/attendance-setting/
     OrganizationSettingComponent,
     LeaveSettingComponent,
     SystemSettingComponent,
-    AttendanceSettingComponent
+    AttendanceSettingComponent,
+    AdminAttendanceComponent,
+    AttendanceTableComponent,
+    AttendanceDetailComponent,
+    MarkupModalComponent
   ],
   imports: [
     CommonModule,
