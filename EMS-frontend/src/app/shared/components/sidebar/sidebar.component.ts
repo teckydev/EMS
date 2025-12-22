@@ -22,6 +22,7 @@ setMenu() {
         { label: 'Department', icon: 'category_search', route: '/admin/department' },
         { label: 'Employee', icon: 'people', route: '/admin/employees' },
         { label: 'Salary', icon: 'attach_money', route: '/admin/salary' },
+          { label: 'Leave', icon: 'event_note', route: '/admin/leave' },
       ];
     } else if (this.role === 'employee') {
       this.menuItems = [
