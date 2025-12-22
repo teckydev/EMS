@@ -28,6 +28,9 @@ import { AdminAttendanceComponent } from './pages/admin-attendance/admin-attenda
 import { AttendanceTableComponent } from './pages/admin-attendance/attendance-table/attendance-table.component';
 import { AttendanceDetailComponent } from './pages/admin-attendance/attendance-detail/attendance-detail.component';
 import { MarkupModalComponent } from './pages/admin-attendance/markup-modal/markup-modal.component';
+import { AdminTaskComponent } from './pages/admin-task/admin-task.component';
+import { TaskFormDialogComponent } from './pages/admin-task/task-form-dialog/task-form-dialog.component';
+import { TaskDetailComponent } from './pages/admin-task/task-detail/task-detail.component';
 
 
 @NgModule({
@@ -53,7 +56,10 @@ import { MarkupModalComponent } from './pages/admin-attendance/markup-modal/mark
     AdminAttendanceComponent,
     AttendanceTableComponent,
     AttendanceDetailComponent,
-    MarkupModalComponent
+    MarkupModalComponent,
+    AdminTaskComponent,
+    TaskFormDialogComponent,
+    TaskDetailComponent
   ],
   imports: [
     CommonModule,

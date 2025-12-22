@@ -25,6 +25,7 @@ setMenu() {
           { label: 'Leave', icon: 'event_note', route: '/admin/leave' },
            { label: 'Setting', icon: 'settings', route: '/admin/settings' },
            { label: 'Attendance', icon: 'calendar_today', route: '/admin/attendance' },
+        { label: 'Tasks', icon: 'check_circle', route: '/admin/tasks' },
       ];
     } else if (this.role === 'employee') {
       this.menuItems = [

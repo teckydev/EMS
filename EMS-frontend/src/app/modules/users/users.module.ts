@@ -17,6 +17,10 @@ import { ChangePasswordComponent } from './pages/emp-settings/change-password/ch
 import { EditProfileComponent } from './pages/emp-settings/edit-profile/edit-profile.component';
 import { EmployeeSettingsComponent } from './pages/emp-settings/employee-settings.component';
 import { AttendanceComponent } from './pages/attendance/attendance.component';
+import { EmployeeTaskComponent } from './pages/employee-task/employee-task.component';
+import { EmpDashboardComponent } from './pages/emp-dashboard/emp-dashboard.component';
+import { NotificationStatusComponent } from './pages/emp-dashboard/notification-status/notification-status.component';
+import { TaskProgressDialogComponent } from './pages/employee-task/task-progress-dialog/task-progress-dialog.component';
 
 
 @NgModule({
@@ -31,7 +35,11 @@ import { AttendanceComponent } from './pages/attendance/attendance.component';
     ChangePasswordComponent,
     EditProfileComponent,
     EmployeeSettingsComponent,
-    AttendanceComponent
+    AttendanceComponent,
+    EmployeeTaskComponent,
+    EmpDashboardComponent,
+    NotificationStatusComponent,
+    TaskProgressDialogComponent
   ],
   imports: [
     CommonModule,

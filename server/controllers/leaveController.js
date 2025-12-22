@@ -72,75 +72,7 @@ const viewOwnLeaves = async (req, res) => {
  * @route   GET /api/leaves/:id
  * @access  Private (Employee)
  */
-// const getSpecificLeave = async (req, res) => {
-//     try {
-//         const employeeId = await getEmployeeId(req.user.userId);
-//         const leaveId = req.params.id;
 
-//         // Find the leave by ID AND ensure it belongs to the authenticated employee
-//         const leave = await Leave.findOne({ _id: leaveId, employee: employeeId })
-//             .select('-employee -__v');
-
-//         if (!leave) {
-//             return res.status(404).json({ message: 'Leave request not found or unauthorized.' });
-//         }
-
-//         res.status(200).json(leave);
-
-//     } catch (error) {
-//         // Handle MongoDB Cast Error if ID is invalid format
-//         if (error.name === 'CastError') {
-//             return res.status(400).json({ message: 'Invalid Leave ID format.' });
-//         }
-//         res.status(500).json({ message: 'Server error fetching leave detail.', error: error.message });
-//     }
-// };
-
-// const getSpecificLeave = async (req, res) => {
-//   try {
-//     const employeeId = await getEmployeeId(req.user.userId);
-//     const leaveId = req.params.id;
-
-//     // Find the leave by ID and ensure it belongs to the logged-in employee
-//     const leave = await Leave.findOne({ _id: leaveId, employee: employeeId })
-//       .populate({
-//         path: 'employee',
-//         select: 'firstName lastName empId department position',
-//         populate: { path: 'department', select: 'name' } // ✅ populate department name
-//       })
-//       .select('-__v');
-
-//     if (!leave) {
-//       return res.status(404).json({ message: 'Leave request not found or unauthorized.' });
-//     }
-
-//     // Prepare clean, readable response
-//     const response = {
-//       empId: leave.employee?.empId,
-//       employeeName: `${leave.employee?.firstName} ${leave.employee?.lastName}`,
-//       department: leave.employee?.department?.name || 'N/A', // ✅ fixed department
-//       leaveType: leave.leaveType,
-//       position: leave.employee?.position,
-//       startDate: leave.startDate,
-//       endDate: leave.endDate,
-//       reason: leave.reason,
-//       status: leave.status,
-//       appliedAt: leave.appliedAt,
-//       updatedAt: leave.updatedAt,
-//       numberOfDays: leave.numberOfDays,
-//       _id: leave._id
-//     };
-
-//     res.status(200).json(response);
-
-//   } catch (error) {
-//     if (error.name === 'CastError') {
-//       return res.status(400).json({ message: 'Invalid Leave ID format.' });
-//     }
-//     console.error("Error fetching leave detail:", error);
-//     res.status(500).json({ message: 'Server error fetching leave detail.', error: error.message });
-//   }
-// };
 
 const getSpecificLeave = async (req, res) => {
   try {

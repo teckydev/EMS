@@ -28,9 +28,9 @@
     </div>
 
     <table
-      *ngIf="!loading && attendanceData.length"
-      mat-table
-      [dataSource]="attendanceData"
+        *ngIf="!loading && dataSource.data.length"
+  mat-table
+  [dataSource]="dataSource"
       class="mat-elevation-z8 w-full"
     >
       <!-- Date -->
