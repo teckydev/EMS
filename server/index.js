@@ -1,70 +1,107 @@
 const express = require('express');
 const socketIO = require('socket.io');
-const dotenv = require('dotenv');
 const cors = require('cors');
 const http = require('http');
-const connectDB = require('./config/db');
 const path = require('path');
+const dotenv = require('dotenv');
+
+dotenv.config(); // ✅ must be first
+
+const connectDB = require('./config/db');
 const expressJSDocSwagger = require("express-jsdoc-swagger");
-const salaryRoutes = require('./routes/salaryRoutes'); // Import new salary routes
+
+// Routes
+const salaryRoutes = require('./routes/salaryRoutes');
 const leaveRoutes = require('./routes/leaveRoutes');
 const settingRoutes = require('./routes/organizationRoutes');
-const configSetting = require("./routes/configSettingRoutes")
-const statistic = require('./routes/dashboardRoutes')
-const attendance = require("./routes/attendanceRoutes")
+const configSetting = require("./routes/configSettingRoutes");
+const statistic = require('./routes/dashboardRoutes');
+const attendance = require("./routes/attendanceRoutes");
 const task = require("./routes/taskRoutes");
-const notification = require('./routes/notificationRoutes')
-require('dotenv').config();
-dotenv.config();
-connectDB();
+const notification = require('./routes/notificationRoutes');
 
 const app = express();
+
+/* =========================
+   ✅ SAFE CORS CONFIG
+========================= */
 const corsOptions = {
-  origin: 'http://localhost:4200', // Angular app
-  methods: ['GET','POST','PUT','DELETE','OPTIONS'],
-  allowedHeaders: ['Content-Type','Authorization'],
+  origin: true, // ✅ allow Render + Netlify + localhost
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH', 'OPTIONS'],
+  allowedHeaders: ['Content-Type', 'Authorization'],
   credentials: true
 };
+
+app.use(cors(corsOptions));
+app.use(express.json());
+
+/* =========================
+   ✅ HEALTH CHECK (MANDATORY)
+========================= */
+app.get('/', (req, res) => {
+  res.send('EMS Backend is running');
+});
+
+/* =========================
+   ✅ SWAGGER (RENDER SAFE)
+========================= */
 const options = {
   info: {
     version: "1.0.0",
-    title: "Fully Automatic API",
-    description: "Swagger docs auto-generated without annotations",
+    title: "EMS API",
+    description: "Employee Management System APIs",
   },
   servers: [
     {
-      url: "http://localhost:5000",
+      url: process.env.BASE_URL || "http://localhost:5000",
     },
   ],
-  baseDir: __dirname, // Directory where your route files are located
-  filesPattern: "./routes/*.js", // All files to scan for routes
+  baseDir: __dirname,
+  filesPattern: "./routes/*.js",
   swaggerUIPath: "/api-docs",
   exposeSwaggerUI: true,
-  exposeApiDocs: true,
 };
 
-// 1️⃣ Create HTTP server
+expressJSDocSwagger(app)(options);
+
+/* =========================
+   ✅ ROUTES
+========================= */
+app.use('/api/admin', require('./routes/authRoutes'));
+app.use('/api/departments', require('./routes/departmentRoutes'));
+app.use('/api/employees', require('./routes/employeeRoutes'));
+app.use('/api/salaries', salaryRoutes);
+app.use('/api/leaves', leaveRoutes);
+app.use('/api/settings', settingRoutes);
+app.use('/api/settings', configSetting);
+app.use('/api/dashboard', statistic);
+app.use('/api/attendance', attendance);
+app.use('/api/tasks', task);
+app.use('/api/notifications', notification);
+app.use('/uploads', express.static('public/uploads'));
+
+/* =========================
+   ✅ CREATE HTTP SERVER
+========================= */
 const server = http.createServer(app);
 
-// 2️⃣ Attach socket.io to server
+/* =========================
+   ✅ SOCKET.IO (RENDER SAFE)
+========================= */
 const io = socketIO(server, {
   cors: {
-    origin: 'http://localhost:4200',// in real app, specify Angular URL
+    origin: true,
     methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH']
   }
 });
 
-// 3️⃣ Make io globally available (simple way)
 global.io = io;
 
-// 4️⃣ Handle socket connections
 io.on('connection', (socket) => {
   console.log('🔌 Client connected:', socket.id);
 
-  // Client will tell us which employeeId they are
   socket.on('register', (employeeId) => {
-    console.log(`Employee ${employeeId} joined`);
-    socket.join(employeeId); // join room with employeeId
+    socket.join(employeeId);
   });
 
   socket.on('disconnect', () => {
@@ -72,36 +109,23 @@ io.on('connection', (socket) => {
   });
 });
 
-expressJSDocSwagger(app)(options);
-app.use(cors(corsOptions));
-app.use(express.json());
-
-app.use('/api/admin', require('./routes/authRoutes'));
-app.use('/api/departments', require('./routes/departmentRoutes'));
-
-// New employee routes
-app.use('/api/employees', require('./routes/employeeRoutes'));
-//salary
-app.use('/api/salaries', salaryRoutes); 
-
-app.use('/uploads', express.static('public/uploads'));
-//leave
-app.use('/api/leaves', leaveRoutes);
-//admin-setting
-app.use('/api/settings', settingRoutes);
-//admin-leave-setting
-app.use("/api/settings", configSetting);
-
-app.use('/api/dashboard', statistic);
-
-app.use("/api/attendance", attendance);
-
-app.use("/api/tasks", task);
-
-app.use('/api/notifications', notification);
-
+/* =========================
+   ✅ START SERVER FIRST
+========================= */
 const PORT = process.env.PORT || 5000;
+
 server.listen(PORT, () => {
-  console.log(`Server running on port ${PORT}`);
-  console.log(`Swagger docs available at http://localhost:${PORT}/api-docs`);
+  console.log(`🚀 Server running on port ${PORT}`);
 });
+
+/* =========================
+   ✅ CONNECT DATABASE (SAFE)
+========================= */
+(async () => {
+  try {
+    await connectDB();
+    console.log("✅ MongoDB connected");
+  } catch (error) {
+    console.error("❌ MongoDB connection failed", error);
+  }
+})();
