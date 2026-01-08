@@ -1,10 +1,13 @@
 const express = require('express');
 const socketIO = require('socket.io');
-const dotenv = require('dotenv');
 const cors = require('cors');
 const http = require('http');
-const connectDB = require('./config/db');
 const path = require('path');
+const dotenv = require('dotenv');
+dotenv.config();   // 🔥 MUST be first
+
+const connectDB = require('./config/db');
+connectDB();
 const expressJSDocSwagger = require("express-jsdoc-swagger");
 const salaryRoutes = require('./routes/salaryRoutes'); // Import new salary routes
 const leaveRoutes = require('./routes/leaveRoutes');
@@ -14,9 +17,8 @@ const statistic = require('./routes/dashboardRoutes')
 const attendance = require("./routes/attendanceRoutes")
 const task = require("./routes/taskRoutes");
 const notification = require('./routes/notificationRoutes')
-require('dotenv').config();
-dotenv.config();
-connectDB();
+
+
 
 const app = express();
 const corsOptions = {
