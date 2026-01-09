@@ -3,12 +3,13 @@ import { Injectable } from '@angular/core';
 import { Employee } from '../model/Employee';
 import { Observable } from 'rxjs';
 import { AuthService } from './auth.service';
+import { environment } from 'src/environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class EmployeeService {
- private apiUrl = 'http://localhost:5000/api/employees';
+ private apiUrl = `${environment.apiUrl}/employees`;
   constructor(private http: HttpClient,private authService:AuthService) { }
    getEmployees(): Observable<Employee[]> {
     return this.http.get<any[]>(this.apiUrl);
