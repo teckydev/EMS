@@ -1,0 +1,36 @@
+<h2 mat-dialog-title class="text-indigo-700 text-xl font-semibold">
+  Update Task Progress
+</h2>
+
+<mat-dialog-content [formGroup]="form" class="space-y-4">
+  <p class="text-gray-600">
+    <strong>Task:</strong> {{ data.title }}
+  </p>
+
+  <mat-form-field appearance="outline" class="w-full">
+    <mat-label>Status</mat-label>
+    <mat-select formControlName="status">
+      <mat-option value="Pending">Pending</mat-option>
+      <mat-option value="In Progress">In Progress</mat-option>
+      <mat-option value="Completed">Completed</mat-option>
+    </mat-select>
+  </mat-form-field>
+
+  <div>
+    <label class="text-gray-700 font-medium">Progress: {{ form.value.progress }}%</label>
+    <mat-slider formControlName="progress" min="0" max="100" step="5"></mat-slider>
+  </div>
+
+  <mat-form-field appearance="outline" class="w-full">
+    <mat-label>Add Comment (optional)</mat-label>
+    <textarea matInput rows="2" formControlName="comment"></textarea>
+  </mat-form-field>
+</mat-dialog-content>
+
+<mat-dialog-actions align="end">
+  <button mat-stroked-button (click)="closeDialog()">Cancel</button>
+  <button mat-raised-button color="primary" (click)="updateProgress()" [disabled]="saving">
+    <mat-spinner *ngIf="saving" diameter="20"></mat-spinner>
+    <span *ngIf="!saving">Update</span>
+  </button>
+</mat-dialog-actions>

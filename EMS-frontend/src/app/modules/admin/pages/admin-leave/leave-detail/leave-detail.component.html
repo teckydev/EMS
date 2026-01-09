@@ -1,0 +1,56 @@
+<div *ngIf="loading" class="flex justify-center items-center h-64">
+  <mat-spinner></mat-spinner>
+</div>
+
+<div *ngIf="!loading && leave" class="p-6 max-w-4xl mx-auto">
+  <mat-card class="shadow-lg rounded-2xl">
+    <mat-card-header>
+      <div mat-card-avatar class="bg-blue-100 rounded-full h-12 w-12 flex items-center justify-center text-blue-700 font-bold">
+        {{ leave.employeeName.charAt(0) }}
+      </div>
+      <mat-card-title>{{ leave.employeeName}} </mat-card-title>
+      <mat-card-subtitle>{{ leave.position }} — {{ leave.department }}</mat-card-subtitle>
+    </mat-card-header>
+
+    <mat-card-content class="mt-4 space-y-4">
+      <div class="grid grid-cols-2 gap-4">
+        <div>
+          <p class="font-medium text-gray-600">Employee ID</p>
+          <p>{{ leave.empId }}</p>
+        </div>
+        <div>
+          <p class="font-medium text-gray-600">Leave Type</p>
+          <p>{{ leave.leaveType }}</p>
+        </div>
+        <div>
+          <p class="font-medium text-gray-600">Start Date</p>
+          <p>{{ leave.startDate | date:'mediumDate' }}</p>
+        </div>
+        <div>
+          <p class="font-medium text-gray-600">End Date</p>
+          <p>{{ leave.endDate | date:'mediumDate' }}</p>
+        </div>
+        <div>
+          <p class="font-medium text-gray-600">Days</p>
+          <p>{{ leave.startDate | datedif:leave.endDate }} days</p>
+        </div>
+        <div>
+          <p class="font-medium text-gray-600">Status</p>
+          <mat-chip color="primary" *ngIf="leave.status === 'Approved'" selected>Approved</mat-chip>
+          <mat-chip color="warn" *ngIf="leave.status === 'Rejected'" selected>Rejected</mat-chip>
+          <mat-chip *ngIf="leave.status === 'Pending'" selected>Pending</mat-chip>
+        </div>
+      </div>
+
+      <div>
+        <p class="font-medium text-gray-600">Reason</p>
+        <p class="bg-gray-100 p-3 rounded-md">{{ leave.reason }}</p>
+      </div>
+    </mat-card-content>
+
+    <mat-card-actions class="flex justify-end mt-6">
+      <button mat-stroked-button color="warn" (click)="updateStatus('Rejected')">Reject</button>
+      <button mat-raised-button color="primary" class="ml-4" (click)="updateStatus('Approved')">Approve</button>
+    </mat-card-actions>
+  </mat-card>
+</div>

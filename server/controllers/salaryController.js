@@ -29,7 +29,7 @@ const addSalaryRecord = async (req, res) => {
       deductions,
       netPay,
       payDate: payDate || Date.now(),
-      createdBy: req.user?.id || null, // handle if no auth
+      createdBy: req.user?.userId || null, // handle if no auth
     });
 
     res.status(201).json({ message: 'Salary record added successfully', record });
@@ -151,5 +151,45 @@ const getSalaryById = async (req, res) => {
   }
 };
 
+// ✅ Get salary details for logged-in employee
 
-module.exports = { addSalaryRecord,getSalaryHistory,updateSalaryRecord,deleteSalaryRecord,getSalaryById };
+/**
+ * @desc    Get salary records for the authenticated user only 
+ * @route   GET /api/salaries/me
+ * @access  Private (Employee Dashboard)
+ */
+const getEmployeeSalary = async (req, res) => {
+  try {
+    // 1. Handle multiple possible token formats
+    const userId = req.user?.userId || req.user?.id || req.user?._id;
+
+    console.log("UserId from token:", userId);
+
+    if (!userId) {
+      return res.status(400).json({ message: 'Invalid token or missing user ID.' });
+    }
+
+    // 2. Find Employee linked to the logged-in user
+    const employee = await Employee.findOne({ user: userId }).select('_id empId firstName lastName');
+
+    if (!employee) {
+      return res.status(404).json({ message: 'Employee profile not found for this user.' });
+    }
+
+    // 3. Fetch all SalaryRecords for this employee
+    const records = await SalaryRecord.find({ employee: employee._id })
+      .select('payDate basicSalary allowances deductions netPay')
+      .sort({ payDate: -1 });
+
+    res.status(200).json({
+      employee,
+      salaryHistory: records,
+    });
+
+  } catch (error) {
+    console.error('Error fetching salary:', error);
+    res.status(500).json({ message: 'Server error fetching your paychecks.', error: error.message });
+  }
+};
+
+module.exports = { addSalaryRecord,getSalaryHistory,updateSalaryRecord,deleteSalaryRecord,getSalaryById,getEmployeeSalary};

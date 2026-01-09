@@ -22,6 +22,10 @@ setMenu() {
         { label: 'Department', icon: 'category_search', route: '/admin/department' },
         { label: 'Employee', icon: 'people', route: '/admin/employees' },
         { label: 'Salary', icon: 'attach_money', route: '/admin/salary' },
+          { label: 'Leave', icon: 'event_note', route: '/admin/leave' },
+           { label: 'Setting', icon: 'settings', route: '/admin/settings' },
+           { label: 'Attendance', icon: 'calendar_today', route: '/admin/attendance' },
+        { label: 'Tasks', icon: 'check_circle', route: '/admin/tasks' },
       ];
     } else if (this.role === 'employee') {
       this.menuItems = [
@@ -30,7 +34,7 @@ setMenu() {
 
       { label: 'Leave', icon: 'event_note', route: '/user/list' },
       { label: 'Salary', icon: 'attach_money', route: '/user/salary' },
-      { label: 'Setting', icon: 'settings', route: '/user/setting' },
+      { label: 'Setting', icon: 'settings', route: '/user/settings' },
         { label: 'Tasks', icon: 'check_circle', route: '/user/tasks' },
         { label: 'Attendance', icon: 'calendar_today', route: '/user/attendance' },
       ];

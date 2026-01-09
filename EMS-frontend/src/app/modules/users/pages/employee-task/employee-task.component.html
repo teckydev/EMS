@@ -1,0 +1,74 @@
+<div class="p-6">
+  <div class="flex justify-between items-center mb-4">
+    <h2 class="text-2xl font-semibold text-indigo-700">My Tasks</h2>
+
+    <mat-form-field appearance="outline" class="w-56">
+      <mat-label>Filter by Status</mat-label>
+      <mat-select [(ngModel)]="selectedStatus" (selectionChange)="applyFilter()">
+        <mat-option value="">All</mat-option>
+        <mat-option value="Medium">Medium</mat-option>
+        <mat-option value="Low">Low</mat-option>
+        <mat-option value="High">High</mat-option>
+      </mat-select>
+    </mat-form-field>
+  </div>
+
+  <mat-progress-bar *ngIf="loading" mode="indeterminate"></mat-progress-bar>
+
+  <table mat-table [dataSource]="filteredTasks" class="mat-elevation-z8 w-full">
+
+    <!-- Title -->
+    <ng-container matColumnDef="title">
+      <th mat-header-cell *matHeaderCellDef>Title</th>
+      <td mat-cell *matCellDef="let task">
+        <button class="text-blue-600 underline" (click)="openProgressDialog(task)">
+          {{ task.title }}
+        </button>
+      </td>
+    </ng-container>
+
+    <!-- Department -->
+    <ng-container matColumnDef="department">
+      <th mat-header-cell *matHeaderCellDef>Department</th>
+      <td mat-cell *matCellDef="let task">{{ task.department.name }}</td>
+    </ng-container>
+
+    <!-- Due Date -->
+    <ng-container matColumnDef="dueDate">
+      <th mat-header-cell *matHeaderCellDef>Due Date</th>
+      <td mat-cell *matCellDef="let task">{{ task.dueDate | date: 'shortDate' }}</td>
+    </ng-container>
+
+    <!-- Priority -->
+    <ng-container matColumnDef="priority">
+      <th mat-header-cell *matHeaderCellDef>Priority</th>
+      <td mat-cell *matCellDef="let task">
+        <span [ngClass]="{
+          'text-green-600': task.priority === 'Low',
+          'text-yellow-600': task.priority === 'Medium',
+          'text-red-600': task.priority === 'High'
+        }">
+          {{ task.priority }}
+        </span>
+      </td>
+    </ng-container>
+
+    <!-- Progress -->
+    <ng-container matColumnDef="progress">
+      <th mat-header-cell *matHeaderCellDef>Progress</th>
+      <td mat-cell *matCellDef="let task">
+        <mat-progress-bar [value]="task.progress || 0" color="accent"></mat-progress-bar>
+        <span class="text-sm text-gray-600">{{ task.progress || 0 }}%</span>
+      </td>
+    </ng-container>
+
+    <!-- Status -->
+    <ng-container matColumnDef="status">
+      <th mat-header-cell *matHeaderCellDef>Status</th>
+      <td mat-cell *matCellDef="let task">{{ task.status }}</td>
+    </ng-container>
+
+    <tr mat-header-row *matHeaderRowDef="['title','department','dueDate','priority','progress','status']"></tr>
+    <tr mat-row *matRowDef="let row; columns: ['title','department','dueDate','priority','progress','status']"></tr>
+  </table>
+</div>

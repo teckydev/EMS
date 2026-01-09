@@ -15,6 +15,22 @@ import { EmployeeListComponent } from './pages/employee-list/employee-list.compo
 import { EmployeeViewComponent } from './pages/employee-view/employee-view.component';
 import { AddSalaryComponent } from './pages/salary/add-salary/add-salary.component';
 import { ViewSalaryComponent } from './pages/salary/view-salary/view-salary.component';
+import { LeaveListComponent } from './pages/admin-leave/leave-list/leave-list.component';
+import { LeaveDetailComponent } from './pages/admin-leave/leave-detail/leave-detail.component';
+import { DatedifPipe } from 'src/app/core/pipes/datedif.pipe';
+import { ProfileSettingComponent } from './pages/settings/profile-setting/profile-setting.component';
+import { SettingsComponent } from './pages/settings/settings.component';
+import { OrganizationSettingComponent } from './pages/settings/organization-setting/organization-setting.component';
+import { LeaveSettingComponent } from './pages/settings/leave-setting/leave-setting.component';
+import { SystemSettingComponent } from './pages/settings/system-setting/system-setting.component';
+import { AttendanceSettingComponent } from './pages/settings/attendance-setting/attendance-setting.component';
+import { AdminAttendanceComponent } from './pages/admin-attendance/admin-attendance/admin-attendance.component';
+import { AttendanceTableComponent } from './pages/admin-attendance/attendance-table/attendance-table.component';
+import { AttendanceDetailComponent } from './pages/admin-attendance/attendance-detail/attendance-detail.component';
+import { MarkupModalComponent } from './pages/admin-attendance/markup-modal/markup-modal.component';
+import { AdminTaskComponent } from './pages/admin-task/admin-task.component';
+import { TaskFormDialogComponent } from './pages/admin-task/task-form-dialog/task-form-dialog.component';
+import { TaskDetailComponent } from './pages/admin-task/task-detail/task-detail.component';
 
 
 @NgModule({
@@ -28,6 +44,22 @@ import { ViewSalaryComponent } from './pages/salary/view-salary/view-salary.comp
     EmployeeViewComponent,
     AddSalaryComponent,
     ViewSalaryComponent,
+    LeaveListComponent,
+    LeaveDetailComponent,
+    DatedifPipe,
+    ProfileSettingComponent,
+    SettingsComponent,
+    OrganizationSettingComponent,
+    LeaveSettingComponent,
+    SystemSettingComponent,
+    AttendanceSettingComponent,
+    AdminAttendanceComponent,
+    AttendanceTableComponent,
+    AttendanceDetailComponent,
+    MarkupModalComponent,
+    AdminTaskComponent,
+    TaskFormDialogComponent,
+    TaskDetailComponent
   ],
   imports: [
     CommonModule,

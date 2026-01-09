@@ -5,10 +5,16 @@ import { UsersComponent } from './users.component';
 import { LeaveFormComponent } from './pages/leave-form/leave-form.component';
 import { ListComponent } from './pages/list/list.component';
 import { LeaveDetailsComponent } from './pages/leave-details/leave-details.component';
+import { EmpSalaryComponent } from './pages/emp-salary/emp-salary.component';
+import { EmployeeSettingsComponent } from './pages/emp-settings/employee-settings.component';
+import { EditProfileComponent } from './pages/emp-settings/edit-profile/edit-profile.component';
+import { AttendanceComponent } from './pages/attendance/attendance.component';
+import { EmployeeTaskComponent } from './pages/employee-task/employee-task.component';
+import { EmpDashboardComponent } from './pages/emp-dashboard/emp-dashboard.component';
 
 const routes: Routes = [
   {
-    path:'',component:UsersComponent
+    path:'me',component:UsersComponent
   },
   {
     path:'profile',component:ProfileSummaryComponent
@@ -21,6 +27,29 @@ const routes: Routes = [
   },
   {
     path:'detail/:id',component:LeaveDetailsComponent
+  },{
+    path:'salary',component:EmpSalaryComponent
+  },
+  {
+    path:'settings',component:EmployeeSettingsComponent
+  },
+  {
+    path:"edit-profil",component:EditProfileComponent
+  },
+  {
+    path: 'attendance',component: AttendanceComponent
+  },
+  {
+    path:"tasks",
+    children:[
+      {path:'',component:EmployeeTaskComponent}
+    ]
+  },
+  {
+    path:"",
+    component:EmpDashboardComponent
+   
+
   }
 ];
 

@@ -9,7 +9,9 @@ const {
   getEmployeeCount,
   getActiveEmployeeCount,
   getNewHiresCount,
-  getEmployeeProfileSelf
+  getEmployeeProfileSelf,
+  updateEmployeeSelf,
+  getEmployeeByUserId
   
 } = require("../controllers/employeeController");
 const { protect } = require("../middleware/authMiddleware");
@@ -41,7 +43,8 @@ router.get("/", protect, getEmployees);
 router.get("/:id", protect, getEmployeeById);
 router.get("/department/:id", protect, getEmployeesByDepartment);
 
-
+// ✅ GET /api/employees/by-user/:userId
+router.get('/by-user/:userId', getEmployeeByUserId);
 // Add a new employee (admin only)
 router.post(
   "/add",
@@ -51,6 +54,13 @@ router.post(
   addEmployee
 );
 
+// ✅ PUT /api/employees/self → update profile info
+router.put(
+  "/self",
+  protect, // only logged-in user can update self
+  upload.single("photo"), // optional photo upload
+  updateEmployeeSelf
+);
 // Update an employee by ID (admin only)
 router.put(
   "/:id",

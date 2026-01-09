@@ -10,6 +10,8 @@ import { NgChartsModule } from 'ng2-charts';
 import { RecentActivityComponent } from './components/recent-activity/recent-activity.component';
 import { DataTableComponent } from './components/data-table/data-table.component';
 import { FormsModule } from '@angular/forms';
+import { ProfileUserComponent } from './components/profile-user/profile-user.component';
+import { StatusBarComponent } from './components/status-bar/status-bar.component';
 
 
 
@@ -21,6 +23,8 @@ import { FormsModule } from '@angular/forms';
     ChartComponent,
     RecentActivityComponent,
     DataTableComponent,
+    ProfileUserComponent,
+    StatusBarComponent,
   ],
   imports: [
     CommonModule,
@@ -36,6 +40,8 @@ import { FormsModule } from '@angular/forms';
     ChartComponent,
     RecentActivityComponent,
     DataTableComponent,
+    ProfileUserComponent,
+    StatusBarComponent,
     CommonModule
   ]
 })

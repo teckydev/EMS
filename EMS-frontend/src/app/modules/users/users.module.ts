@@ -12,6 +12,15 @@ import { LeaveFormComponent } from './pages/leave-form/leave-form.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ListComponent } from './pages/list/list.component';
 import { LeaveDetailsComponent } from './pages/leave-details/leave-details.component';
+import { EmpSalaryComponent } from './pages/emp-salary/emp-salary.component';
+import { ChangePasswordComponent } from './pages/emp-settings/change-password/change-password.component';
+import { EditProfileComponent } from './pages/emp-settings/edit-profile/edit-profile.component';
+import { EmployeeSettingsComponent } from './pages/emp-settings/employee-settings.component';
+import { AttendanceComponent } from './pages/attendance/attendance.component';
+import { EmployeeTaskComponent } from './pages/employee-task/employee-task.component';
+import { EmpDashboardComponent } from './pages/emp-dashboard/emp-dashboard.component';
+import { NotificationStatusComponent } from './pages/emp-dashboard/notification-status/notification-status.component';
+import { TaskProgressDialogComponent } from './pages/employee-task/task-progress-dialog/task-progress-dialog.component';
 
 
 @NgModule({
@@ -21,7 +30,16 @@ import { LeaveDetailsComponent } from './pages/leave-details/leave-details.compo
     ProfileSummaryComponent,
     LeaveFormComponent,
     ListComponent,
-    LeaveDetailsComponent
+    LeaveDetailsComponent,
+    EmpSalaryComponent,
+    ChangePasswordComponent,
+    EditProfileComponent,
+    EmployeeSettingsComponent,
+    AttendanceComponent,
+    EmployeeTaskComponent,
+    EmpDashboardComponent,
+    NotificationStatusComponent,
+    TaskProgressDialogComponent
   ],
   imports: [
     CommonModule,

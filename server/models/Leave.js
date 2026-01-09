@@ -28,6 +28,11 @@ const LeaveSchema = new mongoose.Schema({
     enum: ['Pending', 'Approved', 'Rejected', 'Cancelled'], // Added 'Cancelled' status
     default: 'Pending',
   },
+  approvedBy: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'User', // or 'Employee', depending on who approves
+    default: null
+  }
   // approvedBy: { ... }, // Omitted for basic employee flow
 }, { timestamps: true });
 

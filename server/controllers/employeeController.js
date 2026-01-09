@@ -184,7 +184,39 @@ const addEmployee = async (req, res) => {
     res.status(500).json({ message: "Server error", error: error.message });
   }
 };
+/**
+ * @desc Get employee details by linked user ID
+ * @route GET /api/employees/by-user/:userId
+ * @access Private (Employee or Admin)
+ */
+const getEmployeeByUserId = async (req, res) => {
+  try {
+    const { userId } = req.params;
 
+    if (!userId) {
+      return res.status(400).json({ message: 'User ID is required' });
+    }
+
+    const employee = await Employee.findOne({ user: userId })
+      .populate('department', 'name') // Optional: show department name
+      .select('-password'); // Exclude sensitive fields
+
+    if (!employee) {
+      return res.status(404).json({ message: 'Employee record not found for this user.' });
+    }
+
+    res.status(200).json({
+      message: 'Employee record fetched successfully.',
+      employee,
+    });
+  } catch (error) {
+    console.error('Error fetching employee by userId:', error);
+    res.status(500).json({
+      message: 'Server error fetching employee details.',
+      error: error.message,
+    });
+  }
+};
 
 
 // @desc    Get all employees
@@ -274,7 +306,7 @@ const getEmployeeById = async (req, res) => {
 };
 const getEmployeeProfileSelf = async (req, res) => {
   try {
-    const userId = req.user.id;
+      const userId = req.user.userId;
     const employee = await Employee.findOne({ user: userId })
       .populate("user", "-password")
       .populate("department");
@@ -284,6 +316,38 @@ const getEmployeeProfileSelf = async (req, res) => {
   } catch (error) {
     console.error(error);
     res.status(500).json({ success: false, message: "Server error while fetching employee" });
+  }
+};
+//update profile for employee,can update profile
+ const updateEmployeeSelf = async (req, res) => {
+  try {
+    const userId = req.user.userId; // comes from token decoded in authMiddleware
+
+    // Find the employee associated with this user
+    const employee = await Employee.findOne({ user: userId });
+    if (!employee) {
+      return res.status(404).json({ message: "Employee not found" });
+    }
+
+    // Extract updated fields
+    const { phone, address } = req.body;
+    if (phone) employee.phone = phone;
+    if (address) employee.address = address;
+
+    // Handle profile picture upload (optional)
+    if (req.file) {
+      employee.photo = req.file.path; // saved photo path
+    }
+
+    await employee.save();
+
+    res.status(200).json({
+      message: "Profile updated successfully",
+      employee,
+    });
+  } catch (error) {
+    console.error("Error updating profile:", error);
+    res.status(500).json({ message: "Server error", error: error.message });
   }
 };
 
@@ -455,5 +519,7 @@ module.exports = {
   getEmployeeCount,
   getActiveEmployeeCount,
   getNewHiresCount,
-  getEmployeeProfileSelf
+  getEmployeeProfileSelf,
+  updateEmployeeSelf,
+  getEmployeeByUserId
 };

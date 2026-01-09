@@ -26,7 +26,10 @@ getEmployeeById(id: string) {
     return this.http.get(`${this.apiUrl}/me`);
   }
 
-
+ // 🟢 Fetch employee record linked to userId
+  getEmployeeByUserId(userId: string): Observable<any> {
+    return this.http.get(`${this.apiUrl}/by-user/${userId}`);
+  }
 
   addEmployee(formData: FormData): Observable<Employee> {
     return this.http.post<any>(`${this.apiUrl}/add`, formData);

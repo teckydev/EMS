@@ -1,4 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit, SimpleChanges, ViewChild } from '@angular/core';
+import { MatPaginator } from '@angular/material/paginator';
+import { MatSort } from '@angular/material/sort';
+import { MatTableDataSource } from '@angular/material/table';
 export interface Activity {
   employee: string;
   action: string;
@@ -11,16 +14,37 @@ export interface Activity {
   styleUrls: ['./recent-activity.component.scss']
 })
 export class RecentActivityComponent implements OnInit {
-displayedColumns: string[] = ['employee', 'action', 'date', 'status'];
-  dataSource: Activity[] = [
-    { employee: 'John Doe', action: 'Applied Leave', date: '2025-09-07', status: 'Approved' },
-    { employee: 'Jane Smith', action: 'Joined', date: '2025-09-05', status: 'Active' },
-    { employee: 'Mark Wilson', action: 'Resigned', date: '2025-08-30', status: 'Inactive' },
-    { employee: 'Lucy Brown', action: 'Promoted', date: '2025-09-01', status: 'Active' },
-  ];
+   @Input() recentActivity: any[] = []; 
+     dataSource!: MatTableDataSource<any>;
+      displayedColumns: string[] = ['employee', 'action', 'status'];
+     @ViewChild(MatPaginator) paginator!: MatPaginator;
+  @ViewChild(MatSort) sort!: MatSort;
+ 
   constructor() { }
 
   ngOnInit(): void {
+     this.dataSource = new MatTableDataSource(this.recentActivity);
+     console.log(this.recentActivity,'recent activity');
+  }
+   ngOnChanges(changes: SimpleChanges): void {
+    if (changes['recentActivity']) {
+      this.dataSource = new MatTableDataSource(this.recentActivity);
+
+      setTimeout(() => {
+        if (this.paginator) this.dataSource.paginator = this.paginator;
+        if (this.sort) this.dataSource.sort = this.sort;
+      });
+    }
+  }
+ngAfterViewInit() {
+    if (this.dataSource) {
+      this.dataSource.paginator = this.paginator;
+      this.dataSource.sort = this.sort;
+    }
   }
 
+  applyFilter(event: Event) {
+    const value = (event.target as HTMLInputElement).value;
+    this.dataSource.filter = value.trim().toLowerCase();
+  }
 }

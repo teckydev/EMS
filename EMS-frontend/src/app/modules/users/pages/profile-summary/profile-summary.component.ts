@@ -33,4 +33,9 @@ employee: any;
       },
     });
   }
+ getPhotoUrl(path: string): string {
+  // Assuming path stored in DB is 'public/uploads/photo-xxxx.png'
+  const fileName = path.split('/').pop(); // get 'photo-xxxx.png'
+  return `http://localhost:5000/uploads/${fileName}`;
+}
 }
