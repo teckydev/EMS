@@ -1,12 +1,13 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
+import { environment } from 'src/environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class DashboardService {
-private baseUrl = 'http://localhost:5000/api/dashboard';
+private baseUrl = `${environment.apiUrl}/dashboard`;
   constructor(private http: HttpClient) { }
    getAdminStats(): Observable<any> {
     return this.http.get(`${this.baseUrl}/stats`);

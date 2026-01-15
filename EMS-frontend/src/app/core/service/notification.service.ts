@@ -9,7 +9,7 @@ export class NotificationService {
   notifications$ = this.notificationsSubject.asObservable();
 
   connect(employeeId: string) {
-  this.socket = io('http://localhost:5000', { transports: ['websocket'] });
+  this.socket = io('https://ems-whdf.onrender.com', { transports: ['websocket'] });
 
   this.socket.on('connect', () => {
     console.log('✅ Socket connected:', this.socket.id);

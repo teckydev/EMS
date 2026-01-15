@@ -14,44 +14,36 @@ import { EmpDashboardComponent } from './pages/emp-dashboard/emp-dashboard.compo
 
 const routes: Routes = [
   {
-    path:'me',component:UsersComponent
-  },
-  {
-    path:'profile',component:ProfileSummaryComponent
-  },
-  {
-    path:'list',component:ListComponent
-  },
-  {
-    path:'leave',component:LeaveFormComponent
-  },
-  {
-    path:'detail/:id',component:LeaveDetailsComponent
-  },{
-    path:'salary',component:EmpSalaryComponent
-  },
-  {
-    path:'settings',component:EmployeeSettingsComponent
-  },
-  {
-    path:"edit-profil",component:EditProfileComponent
-  },
-  {
-    path: 'attendance',component: AttendanceComponent
-  },
-  {
-    path:"tasks",
-    children:[
-      {path:'',component:EmployeeTaskComponent}
-    ]
-  },
-  {
-    path:"",
-    component:EmpDashboardComponent
-   
+    path: '',
+    component: UsersComponent,   // ✅ LAYOUT
+    children: [
 
+      { path: 'dashboard', component: EmpDashboardComponent },
+
+      { path: 'profile', component: ProfileSummaryComponent },
+
+      { path: 'list', component: ListComponent },
+
+      { path: 'leave', component: LeaveFormComponent },
+
+      { path: 'detail/:id', component: LeaveDetailsComponent },
+
+      { path: 'salary', component: EmpSalaryComponent },
+
+      { path: 'settings', component: EmployeeSettingsComponent },
+
+      { path: 'edit-profile', component: EditProfileComponent },
+
+      { path: 'attendance', component: AttendanceComponent },
+
+      { path: 'tasks', component: EmployeeTaskComponent },
+
+      // ✅ DEFAULT ROUTE
+      { path: '', redirectTo: 'dashboard', pathMatch: 'full' }
+    ]
   }
 ];
+
 
 @NgModule({
   imports: [RouterModule.forChild(routes)],

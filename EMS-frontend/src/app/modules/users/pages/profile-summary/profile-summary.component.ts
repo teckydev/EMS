@@ -9,7 +9,7 @@ import { EmployeeService } from 'src/app/core/service/employee.service';
 })
 export class ProfileSummaryComponent implements OnInit {
 employee: any;
-  isLoading = true;
+  // isLoading = true;
   errorMessage = '';
   constructor(private employeeService:EmployeeService,private authService:AuthService) { }
 

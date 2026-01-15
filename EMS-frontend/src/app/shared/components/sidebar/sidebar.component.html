@@ -1,4 +1,4 @@
-<mat-sidenav-container class="h-screen">
+<mat-sidenav-container class="min-h-screen">
   <!-- Sidebar -->
   <mat-sidenav #drawer
     mode="side"
@@ -14,7 +14,7 @@
   *ngFor="let item of menuItems"
   [routerLink]="item.route"
   routerLinkActive="bg-white"
-  [routerLinkActiveOptions]="{ exact: true }"
+ 
 class="flex items-center px-4 py-2 hover:bg-indigo-700 hover:pl-6 transition-all duration-300 rounded-md text-black"
 >
   <mat-icon class="mr-3">{{ item.icon }}</mat-icon>

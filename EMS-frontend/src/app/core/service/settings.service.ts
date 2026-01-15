@@ -9,7 +9,7 @@ import { ChangePasswordRequest, UserProfile } from '../model/User-model';
 })
 export class SettingsService {
 private apiUrl = environment.apiUrl; 
- private settingUrl = 'http://localhost:5000/api/settings';
+ private settingUrl = `${environment.apiUrl}/settings`;
   constructor(private http: HttpClient) { }
   /**
    * Gets the current user's profile data
