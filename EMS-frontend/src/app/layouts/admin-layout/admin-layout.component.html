@@ -1,16 +1,22 @@
-<div class="flex h-screen">
-  <!-- Sidebar -->
-  <!-- <app-sidebar></app-sidebar> -->
-<app-sidebar [role]="'admin'"></app-sidebar>
-  <!-- Main content -->
-  <div class="flex-1 flex flex-col">
-    <!-- Navbar -->
-     <app-header></app-header>
-    <!-- <app-navbar></app-navbar> -->
+<app-header></app-header>
 
-    <!-- Page content -->
-    <main class="p-6 bg-gray-100 flex-1 overflow-auto">
-      <router-outlet></router-outlet>  <!-- child pages render here -->
+<mat-sidenav-container class="h-screen pt-16">
+
+  <!-- Sidebar -->
+  <mat-sidenav
+    #drawer
+    [mode]="isMobile ? 'over' : 'side'"
+    [opened]="!isMobile"
+    class="bg-indigo-600 text-white w-60"
+  >
+    <app-sidebar [role]="'admin'"></app-sidebar>
+  </mat-sidenav>
+
+  <!-- Main Content -->
+  <mat-sidenav-content>
+    <main class="p-6 bg-gray-100 h-full overflow-auto">
+      <router-outlet></router-outlet>
     </main>
-  </div>
-</div>
+  </mat-sidenav-content>
+
+</mat-sidenav-container>
